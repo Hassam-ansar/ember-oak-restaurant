@@ -25,7 +25,55 @@ async function startServer() {
   app.use(cors());
   app.use(express.json({ limit: '10mb' }));
 
-  // Rate limiting for API protection
+  // Serve /src/assets statically so food images always work in both dev and production
+  app.use('/src/assets', express.static(path.resolve(process.cwd(), 'src', 'assets')));
+
+  // Serve Web App Manifest & Service Worker directly so mobile app installation always works
+  app.get('/manifest.json', (_req, res) => {
+    res.setHeader('Content-Type', 'application/manifest+json');
+    res.json({
+      id: '/',
+      name: 'Ember & Oak — Restaurant & Food Ordering App',
+      short_name: 'EmberOak',
+      description: 'Order wood-fired pizzas, craft burgers, and track live delivery.',
+      theme_color: '#0c0a09',
+      background_color: '#0c0a09',
+      display: 'standalone',
+      orientation: 'portrait',
+      start_url: '/',
+      scope: '/',
+      icons: [
+        {
+          src: '/pwa-192x192.png',
+          sizes: '192x192',
+          type: 'image/png',
+          purpose: 'any',
+        },
+        {
+          src: '/pwa-512x512.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'any',
+        },
+        {
+          src: '/pwa-maskable-512x512.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'maskable',
+        },
+      ],
+    });
+  });
+
+  app.get('/sw.js', (_req, res) => {
+    res.setHeader('Content-Type', 'application/javascript');
+    res.send(`
+      self.addEventListener('install', () => self.skipWaiting());
+      self.addEventListener('activate', (event) => event.waitUntil(self.clients.claim()));
+      self.addEventListener('fetch', () => {});
+    `);
+  });
+
   const apiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 600,
@@ -34,17 +82,14 @@ async function startServer() {
   });
   app.use('/api', apiLimiter);
 
-  // Socket.IO connection handling
   io.on('connection', (socket) => {
     socket.on('join:role', (role: string) => {
       socket.join(`role:${role}`);
     });
   });
 
-  // Mount REST API routes
   app.use('/api', createApiRouter(io));
 
-  // Vite middleware for development or static serving in production
   if (process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({
       server: { middlewareMode: true },

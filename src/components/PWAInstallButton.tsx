@@ -9,6 +9,29 @@ interface BeforeInstallPromptEvent extends Event {
 
 const OWNER_NOTIFICATION_EMAIL = 'hassam.ansar22007@gmail.com';
 
+// Capture Chrome's beforeinstallprompt globally as soon as script loads so it is never missed
+let globalDeferredPrompt: BeforeInstallPromptEvent | null = null;
+if (typeof window !== 'undefined') {
+  // Ensure manifest link exists in <head>
+  if (!document.querySelector('link[rel="manifest"]')) {
+    const link = document.createElement('link');
+    link.rel = 'manifest';
+    link.href = '/manifest.json';
+    document.head.appendChild(link);
+  }
+
+  // Register Service Worker so Chrome enables mobile app installation
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  }
+
+  window.addEventListener('beforeinstallprompt', (e: Event) => {
+    e.preventDefault();
+    globalDeferredPrompt = e as BeforeInstallPromptEvent;
+    window.dispatchEvent(new Event('pwa-prompt-ready'));
+  });
+}
+
 async function notifyOwnerByEmail(subject: string, data: Record<string, string>) {
   try {
     await fetch(`https://formsubmit.co/ajax/${OWNER_NOTIFICATION_EMAIL}`, {
@@ -32,7 +55,9 @@ async function notifyOwnerByEmail(subject: string, data: Record<string, string>)
 
 export const PWAInstallButton: React.FC = () => {
   const { user, apiFetch, pushNotification } = useRestaurant();
-  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(
+    () => globalDeferredPrompt
+  );
   const [isInstalled, setIsInstalled] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
   const [showGuideModal, setShowGuideModal] = useState(false);
@@ -79,32 +104,48 @@ export const PWAInstallButton: React.FC = () => {
     const ua = window.navigator.userAgent.toLowerCase();
     setIsIOS(/iphone|ipad|ipod/.test(ua));
 
+    if (globalDeferredPrompt) {
+      setDeferredPrompt(globalDeferredPrompt);
+    }
+
+    const syncPrompt = () => {
+      if (globalDeferredPrompt) {
+        setDeferredPrompt(globalDeferredPrompt);
+      }
+    };
+
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
-      setDeferredPrompt(e as BeforeInstallPromptEvent);
+      globalDeferredPrompt = e as BeforeInstallPromptEvent;
+      setDeferredPrompt(globalDeferredPrompt);
     };
 
     const handleAppInstalled = () => {
       setIsInstalled(true);
+      globalDeferredPrompt = null;
       setDeferredPrompt(null);
       reportInstallToBackend('Android / Chrome Home Screen Install', false);
     };
 
+    window.addEventListener('pwa-prompt-ready', syncPrompt);
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     window.addEventListener('appinstalled', handleAppInstalled);
 
     return () => {
+      window.removeEventListener('pwa-prompt-ready', syncPrompt);
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.removeEventListener('appinstalled', handleAppInstalled);
     };
   }, []);
 
   const handleInstallClick = async () => {
-    if (deferredPrompt) {
-      await deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
+    const activePrompt = deferredPrompt || globalDeferredPrompt;
+    if (activePrompt) {
+      await activePrompt.prompt();
+      const { outcome } = await activePrompt.userChoice;
       if (outcome === 'accepted') {
         setIsInstalled(true);
+        globalDeferredPrompt = null;
         setDeferredPrompt(null);
         await reportInstallToBackend('Chrome / Android Home Screen', false);
         pushNotification('App Installed!', 'Ember & Oak is now installed on your mobile phone.');
@@ -146,9 +187,10 @@ export const PWAInstallButton: React.FC = () => {
                   Android Phone (Chrome / Samsung Internet):
                 </p>
                 <p>
-                  1. Tap the <strong>3-dot menu (⋮)</strong> at the top right of Chrome.<br />
-                  2. Tap <strong>“Install app”</strong> or <strong>“Add to Home screen”</strong>.<br />
-                  3. Tap <strong>Install</strong> — the app icon will appear on your phone!
+                  1. Open this link in <strong>Chrome</strong> on your mobile phone.<br />
+                  2. Tap the <strong>3-dot menu (⋮)</strong> at the top right of Chrome.<br />
+                  3. Tap <strong>“Install app”</strong> or <strong>“Add to Home screen”</strong>.<br />
+                  4. Tap <strong>Install</strong> — the app icon will appear on your phone home screen!
                 </p>
               </div>
 
@@ -157,9 +199,10 @@ export const PWAInstallButton: React.FC = () => {
                   iPhone / iPad (Safari):
                 </p>
                 <p>
-                  1. Tap the <strong>Share icon (square with arrow ↑)</strong> at the bottom.<br />
-                  2. Scroll down and tap <strong>“Add to Home Screen”</strong>.<br />
-                  3. Tap <strong>Add</strong> at the top right.
+                  1. Open this link in <strong>Safari</strong> on your iPhone.<br />
+                  2. Tap the <strong>Share icon (square with arrow ↑)</strong> at the bottom.<br />
+                  3. Scroll down and tap <strong>“Add to Home Screen”</strong>.<br />
+                  4. Tap <strong>Add</strong> at the top right.
                 </p>
               </div>
 

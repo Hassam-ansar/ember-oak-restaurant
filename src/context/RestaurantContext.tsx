@@ -148,33 +148,29 @@ export const RestaurantProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   }, [apiFetch]);
 
-  // Initial auth & data load
+  // Initial auth & data load (Never auto-login as demo Sophia Chen)
   useEffect(() => {
     refreshAll();
     const savedToken = localStorage.getItem('eo_token');
     if (savedToken) {
       apiFetch<{ user: IUser }>('/api/auth/me')
-        .then((res) => setUser(res.user))
+        .then((res) => {
+          if (
+            res.user.email === 'customer@emberandoak.com' ||
+            res.user.name.toLowerCase().includes('sophia chen')
+          ) {
+            localStorage.removeItem('eo_token');
+            setToken(null);
+            setUser(null);
+          } else {
+            setUser(res.user);
+          }
+        })
         .catch(() => {
           localStorage.removeItem('eo_token');
           setToken(null);
+          setUser(null);
         });
-    } else {
-      // Automatically sign into the default customer account so favorites, saved addresses, and loyalty points work immediately, while still allowing guest or role switches
-      fetch('/api/auth/quick-switch', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ role: 'customer' }),
-      })
-        .then((r) => r.json())
-        .then((data) => {
-          if (data.token && data.user) {
-            localStorage.setItem('eo_token', data.token);
-            setToken(data.token);
-            setUser(data.user);
-          }
-        })
-        .catch(() => {});
     }
   }, [refreshAll, apiFetch]);
 

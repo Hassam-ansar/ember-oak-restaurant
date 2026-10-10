@@ -126,10 +126,29 @@ const NavigationShell: React.FC = () => {
   const [infoModal, setInfoModal] = useState<'about' | 'delivery' | null>(null);
 
   const cartCount = cart.reduce((sum, i) => sum + i.quantity, 0);
-  const isOwnerUser = Boolean(
+
+  // Automatically clear any cached demo "Sophia Chen" session so Login & Create Account buttons appear
+  React.useEffect(() => {
+    if (
+      user &&
+      (user.email.toLowerCase() === 'customer@emberandoak.com' ||
+        user.name.toLowerCase().includes('sophia chen'))
+    ) {
+      logout();
+    }
+  }, [user, logout]);
+
+  const activeUser =
     user &&
-      (user.email.toLowerCase() === OWNER_NOTIFICATION_EMAIL.toLowerCase() ||
-        user.role === 'owner')
+    user.email.toLowerCase() !== 'customer@emberandoak.com' &&
+    !user.name.toLowerCase().includes('sophia chen')
+      ? user
+      : null;
+
+  const isOwnerUser = Boolean(
+    activeUser &&
+      (activeUser.email.toLowerCase() === OWNER_NOTIFICATION_EMAIL.toLowerCase() ||
+        activeUser.role === 'owner')
   );
 
   const scrollToSection = (sectionId: string) => {
@@ -269,10 +288,10 @@ const NavigationShell: React.FC = () => {
             {/* Install Mobile App Button in Navbar */}
             <PWAInstallButton />
 
-            {user ? (
+            {activeUser ? (
               <div className="flex items-center gap-2">
                 <span className="px-3 py-2 bg-stone-100 text-stone-900 rounded-lg text-xs font-semibold">
-                  {user.name}
+                  {activeUser.name}
                 </span>
                 {isOwnerUser && (
                   <>
