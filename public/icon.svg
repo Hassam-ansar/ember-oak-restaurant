@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="96" fill="#0c0a09"/>
+  <circle cx="256" cy="256" r="176" fill="#1c1917" stroke="#d97706" stroke-width="10"/>
+  <path d="M256 124c38 44 68 84 68 134 0 38-30 68-68 68s-68-30-68-68c0-26 14-54 34-82 6 18 18 28 28 32-4-28 6-56 6-84z" fill="#d97706"/>
+  <text x="256" y="388" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="44" fill="#fafaf9" letter-spacing="4">E&amp;O</text>
+</svg>

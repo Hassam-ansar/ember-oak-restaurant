@@ -1,0 +1,2904 @@
+{
+  "dataMode": "demo",
+  "mongoConnected": false,
+  "settings": {
+    "id": "settings-main",
+    "restaurantName": "Ember & Oak Kitchen",
+    "tagline": "Wood-Fired Pizzas, Smashed Craft Burgers & Artisanal Grill",
+    "phone": "+1 (555) 234-8910",
+    "email": "orders@emberandoak.kitchen",
+    "address": "742 Artisan Avenue, Culinary District, NY 10012",
+    "currency": "$",
+    "taxRatePercent": 8.5,
+    "loyaltyPointsPerDollar": 10,
+    "isAcceptingOrders": true,
+    "promotionalBannerText": "Use code EMBER20 for 20% off orders over $35 · Free delivery on orders above $50",
+    "deliveryZones": [
+      {
+        "id": "zone-1",
+        "name": "Downtown & Culinary District (0–3 km)",
+        "fee": 2.99,
+        "minOrder": 15,
+        "estimatedMinutes": 25
+      },
+      {
+        "id": "zone-2",
+        "name": "Midtown & Westside (3–7 km)",
+        "fee": 4.99,
+        "minOrder": 22,
+        "estimatedMinutes": 35
+      },
+      {
+        "id": "zone-3",
+        "name": "Uptown & Harbor Heights (7–12 km)",
+        "fee": 6.99,
+        "minOrder": 30,
+        "estimatedMinutes": 45
+      }
+    ]
+  },
+  "users": [
+    {
+      "id": "user-owner",
+      "name": "Marcus Vance (Owner)",
+      "email": "owner@emberandoak.com",
+      "phone": "+1-555-0101",
+      "passwordHash": "$2b$10$JHMXNkt6lDPg2BZSSsrLpuu0SuYpL9aljjC6h0OtKADin1bPBUeCC",
+      "role": "owner",
+      "loyaltyPoints": 1252,
+      "favorites": [
+        "prod-pizza-crown",
+        "prod-burger-smash"
+      ],
+      "savedAddresses": [
+        {
+          "id": "addr-1",
+          "label": "Headquarters",
+          "street": "742 Artisan Avenue, Suite 400",
+          "zone": "Downtown & Culinary District (0–3 km)",
+          "city": "New York",
+          "phone": "+1-555-0101",
+          "isDefault": true
+        }
+      ],
+      "isActive": true,
+      "isDemo": false,
+      "createdAt": "2026-08-11T06:47:24.483Z",
+      "updatedAt": "2026-10-10T06:47:24.483Z"
+    },
+    {
+      "id": "user-manager",
+      "name": "Elena Rostova (Manager)",
+      "email": "manager@emberandoak.com",
+      "phone": "+1-555-0102",
+      "passwordHash": "$2b$10$JHMXNkt6lDPg2BZSSsrLpuu0SuYpL9aljjC6h0OtKADin1bPBUeCC",
+      "role": "manager",
+      "loyaltyPoints": 450,
+      "favorites": [],
+      "savedAddresses": [],
+      "isActive": true,
+      "isDemo": false,
+      "createdAt": "2026-08-26T06:47:24.483Z",
+      "updatedAt": "2026-10-10T06:47:24.483Z"
+    },
+    {
+      "id": "user-cashier",
+      "name": "Devon Brooks (POS Cashier)",
+      "email": "cashier@emberandoak.com",
+      "phone": "+1-555-0103",
+      "passwordHash": "$2b$10$JHMXNkt6lDPg2BZSSsrLpuu0SuYpL9aljjC6h0OtKADin1bPBUeCC",
+      "role": "cashier",
+      "loyaltyPoints": 100,
+      "favorites": [],
+      "savedAddresses": [],
+      "isActive": true,
+      "isDemo": false,
+      "createdAt": "2026-09-10T06:47:24.483Z",
+      "updatedAt": "2026-10-10T06:47:24.483Z"
+    },
+    {
+      "id": "user-kitchen",
+      "name": "Chef Mateo Silva (Kitchen Lead)",
+      "email": "kitchen@emberandoak.com",
+      "phone": "+1-555-0104",
+      "passwordHash": "$2b$10$JHMXNkt6lDPg2BZSSsrLpuu0SuYpL9aljjC6h0OtKADin1bPBUeCC",
+      "role": "kitchen",
+      "loyaltyPoints": 0,
+      "favorites": [],
+      "savedAddresses": [],
+      "isActive": true,
+      "isDemo": false,
+      "createdAt": "2026-09-10T06:47:24.483Z",
+      "updatedAt": "2026-10-10T06:47:24.483Z"
+    },
+    {
+      "id": "user-rider-1",
+      "name": "Tariq Hassan (Delivery Rider)",
+      "email": "rider@emberandoak.com",
+      "phone": "+1-555-0105",
+      "passwordHash": "$2b$10$JHMXNkt6lDPg2BZSSsrLpuu0SuYpL9aljjC6h0OtKADin1bPBUeCC",
+      "role": "rider",
+      "loyaltyPoints": 0,
+      "favorites": [],
+      "savedAddresses": [],
+      "isActive": true,
+      "isDemo": false,
+      "createdAt": "2026-09-15T06:47:24.483Z",
+      "updatedAt": "2026-10-10T06:47:24.483Z"
+    },
+    {
+      "id": "user-rider-2",
+      "name": "Liam O’Connor (Delivery Rider)",
+      "email": "liam.rider@emberandoak.com",
+      "phone": "+1-555-0106",
+      "passwordHash": "$2b$10$JHMXNkt6lDPg2BZSSsrLpuu0SuYpL9aljjC6h0OtKADin1bPBUeCC",
+      "role": "rider",
+      "loyaltyPoints": 0,
+      "favorites": [],
+      "savedAddresses": [],
+      "isActive": true,
+      "isDemo": true,
+      "createdAt": "2026-09-20T06:47:24.483Z",
+      "updatedAt": "2026-10-10T06:47:24.483Z"
+    },
+    {
+      "id": "user-customer",
+      "name": "Sophia Chen",
+      "email": "customer@emberandoak.com",
+      "phone": "+1-555-0199",
+      "passwordHash": "$2b$10$JHMXNkt6lDPg2BZSSsrLpuu0SuYpL9aljjC6h0OtKADin1bPBUeCC",
+      "role": "customer",
+      "loyaltyPoints": 680,
+      "favorites": [
+        "prod-pizza-crown",
+        "prod-burger-smash",
+        "prod-wrap-shawarma"
+      ],
+      "savedAddresses": [
+        {
+          "id": "addr-cust-1",
+          "label": "Home Apartment",
+          "street": "218 Mercer Street, Apt 5B",
+          "zone": "Downtown & Culinary District (0–3 km)",
+          "city": "New York",
+          "phone": "+1-555-0199",
+          "isDefault": true
+        },
+        {
+          "id": "addr-cust-2",
+          "label": "Design Studio Office",
+          "street": "890 Broadway, Floor 8",
+          "zone": "Midtown & Westside (3–7 km)",
+          "city": "New York",
+          "phone": "+1-555-0199",
+          "isDefault": false
+        }
+      ],
+      "isActive": true,
+      "isDemo": false,
+      "createdAt": "2026-09-25T06:47:24.483Z",
+      "updatedAt": "2026-10-10T06:47:24.483Z"
+    }
+  ],
+  "categories": [
+    {
+      "id": "cat-pizza",
+      "name": "Artisanal Pizzas",
+      "slug": "pizza",
+      "description": "Wood-fired sourdough pizzas including Margherita, Fajita, Supreme, Tikka, BBQ, Pepperoni & Crown Crust",
+      "sortOrder": 1,
+      "isActive": true,
+      "isDemo": true
+    },
+    {
+      "id": "cat-burgers",
+      "name": "Craft Burgers",
+      "slug": "burgers",
+      "description": "Smashed aged beef & crispy Zinger chicken burgers on toasted brioche",
+      "sortOrder": 2,
+      "isActive": true,
+      "isDemo": true
+    },
+    {
+      "id": "cat-wraps",
+      "name": "Wraps, Shawarma & Sandwiches",
+      "slug": "wraps-shawarma",
+      "description": "Charcoal-grilled shawarmas, tortilla wraps, and triple-decker club sandwiches",
+      "sortOrder": 3,
+      "isActive": true,
+      "isDemo": true
+    },
+    {
+      "id": "cat-chicken",
+      "name": "Fried Chicken, Wings & Nuggets",
+      "slug": "chicken-wings",
+      "description": "Crispy golden fried chicken pieces, glazed buffalo wings & tender nuggets",
+      "sortOrder": 4,
+      "isActive": true,
+      "isDemo": true
+    },
+    {
+      "id": "cat-pasta-fries",
+      "name": "Pasta, Fries & Snacks",
+      "slug": "pasta-fries",
+      "description": "Creamy artisanal pastas, loaded seasoned fries, and savory sides",
+      "sortOrder": 5,
+      "isActive": true,
+      "isDemo": true
+    },
+    {
+      "id": "cat-drinks-desserts",
+      "name": "Drinks & Desserts",
+      "slug": "drinks-desserts",
+      "description": "Warm molten desserts, craft sodas, and chilled refreshers",
+      "sortOrder": 6,
+      "isActive": true,
+      "isDemo": true
+    },
+    {
+      "id": "cat-deals",
+      "name": "Family Deals & Combos",
+      "slug": "family-deals",
+      "description": "Curated group platters and value bundles for families and gatherings",
+      "sortOrder": 7,
+      "isActive": true,
+      "isDemo": true
+    }
+  ],
+  "products": [
+    {
+      "id": "prod-pizza-crown",
+      "name": "Royal Crown Crust Supreme Pizza",
+      "categoryId": "cat-pizza",
+      "categoryName": "Artisanal Pizzas",
+      "description": "Signature crown-shaped crust stuffed with molten cheddar pockets and chargrilled chicken bites, topped with smoky pepperoni, bell peppers, black olives, and fresh basil.",
+      "image": "/src/assets/images/food_pizza_crown_crust_1791612750318.jpg",
+      "basePrice": 18.5,
+      "sizes": [
+        {
+          "name": "Regular (10\")",
+          "price": 0
+        },
+        {
+          "name": "Medium (12\")",
+          "price": 4
+        },
+        {
+          "name": "Large (14\")",
+          "price": 8
+        },
+        {
+          "name": "Family (16\")",
+          "price": 12
+        }
+      ],
+      "crusts": [
+        {
+          "name": "Artisan Hand-Tossed",
+          "price": 0
+        },
+        {
+          "name": "Thin & Crispy Roman",
+          "price": 1
+        },
+        {
+          "name": "Royal Crown Crust (Cheese & Kebab Pockets)",
+          "price": 3.5
+        },
+        {
+          "name": "Molten Cheese Burst Crust",
+          "price": 4
+        }
+      ],
+      "toppings": [
+        {
+          "name": "Extra Fior di Latte Mozzarella",
+          "price": 2.5
+        },
+        {
+          "name": "Smoked Beef Pepperoni",
+          "price": 2.75
+        },
+        {
+          "name": "Chargrilled Tikka Chicken",
+          "price": 3
+        },
+        {
+          "name": "Roasted Jalapeños & Black Olives",
+          "price": 1.5
+        },
+        {
+          "name": "Caramelized Onions & Mushrooms",
+          "price": 1.75
+        }
+      ],
+      "addOns": [
+        {
+          "name": "Roasted Garlic Herb Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Smoky Chipotle Mayo Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Side Seasoned Fries",
+          "price": 3.5
+        },
+        {
+          "name": "Chilled Craft Berry Soda",
+          "price": 2.75
+        }
+      ],
+      "ingredientsList": [
+        "00 Artisan Dough",
+        "Mozzarella",
+        "Smoked Pepperoni",
+        "Chicken Crown Bites",
+        "Bell Peppers",
+        "Black Olives"
+      ],
+      "recipe": [
+        {
+          "inventoryItemId": "inv-flour",
+          "ingredientName": "Italian 00 Artisan Flour",
+          "quantityPerUnit": 0.35,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-cheese",
+          "ingredientName": "Aged Fior di Latte Mozzarella & Cheddar",
+          "quantityPerUnit": 0.25,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-chicken",
+          "ingredientName": "Prime Free-Range Chicken Fillet & Wings",
+          "quantityPerUnit": 0.18,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-sauces",
+          "ingredientName": "San Marzano Tomato, BBQ & Garlic Toum Sauces",
+          "quantityPerUnit": 0.1,
+          "unit": "L"
+        },
+        {
+          "inventoryItemId": "inv-packaging",
+          "ingredientName": "Thermal Kraft Boxes, Clamshells & Carrier Bags",
+          "quantityPerUnit": 1,
+          "unit": "pcs"
+        }
+      ],
+      "prepTimeMinutes": 18,
+      "isAvailable": true,
+      "isFeatured": true,
+      "rating": 4.9,
+      "reviewCount": 48,
+      "totalSold": 144,
+      "isDemo": true,
+      "createdAt": "2026-09-10T06:47:24.483Z"
+    },
+    {
+      "id": "prod-pizza-pepperoni",
+      "name": "Wood-Fired Double Pepperoni & Basil Pizza",
+      "categoryId": "cat-pizza",
+      "categoryName": "Artisanal Pizzas",
+      "description": "48-hour fermented sourdough crust layered with crushed San Marzano tomato sauce, aged mozzarella, double-cut crispy beef pepperoni cups, and sweet basil.",
+      "image": "/src/assets/images/hero_artisan_pizza_feast_1791612739930.jpg",
+      "basePrice": 16.5,
+      "sizes": [
+        {
+          "name": "Regular (10\")",
+          "price": 0
+        },
+        {
+          "name": "Medium (12\")",
+          "price": 4
+        },
+        {
+          "name": "Large (14\")",
+          "price": 8
+        },
+        {
+          "name": "Family (16\")",
+          "price": 12
+        }
+      ],
+      "crusts": [
+        {
+          "name": "Artisan Hand-Tossed",
+          "price": 0
+        },
+        {
+          "name": "Thin & Crispy Roman",
+          "price": 1
+        },
+        {
+          "name": "Royal Crown Crust (Cheese & Kebab Pockets)",
+          "price": 3.5
+        },
+        {
+          "name": "Molten Cheese Burst Crust",
+          "price": 4
+        }
+      ],
+      "toppings": [
+        {
+          "name": "Extra Fior di Latte Mozzarella",
+          "price": 2.5
+        },
+        {
+          "name": "Smoked Beef Pepperoni",
+          "price": 2.75
+        },
+        {
+          "name": "Chargrilled Tikka Chicken",
+          "price": 3
+        },
+        {
+          "name": "Roasted Jalapeños & Black Olives",
+          "price": 1.5
+        },
+        {
+          "name": "Caramelized Onions & Mushrooms",
+          "price": 1.75
+        }
+      ],
+      "addOns": [
+        {
+          "name": "Roasted Garlic Herb Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Smoky Chipotle Mayo Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Side Seasoned Fries",
+          "price": 3.5
+        },
+        {
+          "name": "Chilled Craft Berry Soda",
+          "price": 2.75
+        }
+      ],
+      "ingredientsList": [
+        "Sourdough Base",
+        "San Marzano Tomato",
+        "Fior di Latte",
+        "Double Beef Pepperoni",
+        "Fresh Basil"
+      ],
+      "recipe": [
+        {
+          "inventoryItemId": "inv-flour",
+          "ingredientName": "Italian 00 Artisan Flour",
+          "quantityPerUnit": 0.3,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-cheese",
+          "ingredientName": "Aged Fior di Latte Mozzarella & Cheddar",
+          "quantityPerUnit": 0.2,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-beef",
+          "ingredientName": "Black Angus Chuck & Brisket Blend",
+          "quantityPerUnit": 0.15,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-packaging",
+          "ingredientName": "Thermal Kraft Boxes, Clamshells & Carrier Bags",
+          "quantityPerUnit": 1,
+          "unit": "pcs"
+        }
+      ],
+      "prepTimeMinutes": 15,
+      "isAvailable": true,
+      "isFeatured": true,
+      "rating": 4.8,
+      "reviewCount": 39,
+      "totalSold": 128,
+      "isDemo": true,
+      "createdAt": "2026-09-12T06:47:24.483Z"
+    },
+    {
+      "id": "prod-pizza-fajita",
+      "name": "Smoky Mexican Chicken Fajita Pizza",
+      "categoryId": "cat-pizza",
+      "categoryName": "Artisanal Pizzas",
+      "description": "Marinated fajita-spiced chicken strips, charred red and green bell peppers, red onions, pickled jalapeños, and melted mozzarella with oregano oil.",
+      "image": "/src/assets/images/food_pizza_crown_crust_1791612750318.jpg",
+      "basePrice": 15.9,
+      "sizes": [
+        {
+          "name": "Regular (10\")",
+          "price": 0
+        },
+        {
+          "name": "Medium (12\")",
+          "price": 4
+        },
+        {
+          "name": "Large (14\")",
+          "price": 8
+        },
+        {
+          "name": "Family (16\")",
+          "price": 12
+        }
+      ],
+      "crusts": [
+        {
+          "name": "Artisan Hand-Tossed",
+          "price": 0
+        },
+        {
+          "name": "Thin & Crispy Roman",
+          "price": 1
+        },
+        {
+          "name": "Royal Crown Crust (Cheese & Kebab Pockets)",
+          "price": 3.5
+        },
+        {
+          "name": "Molten Cheese Burst Crust",
+          "price": 4
+        }
+      ],
+      "toppings": [
+        {
+          "name": "Extra Fior di Latte Mozzarella",
+          "price": 2.5
+        },
+        {
+          "name": "Smoked Beef Pepperoni",
+          "price": 2.75
+        },
+        {
+          "name": "Chargrilled Tikka Chicken",
+          "price": 3
+        },
+        {
+          "name": "Roasted Jalapeños & Black Olives",
+          "price": 1.5
+        },
+        {
+          "name": "Caramelized Onions & Mushrooms",
+          "price": 1.75
+        }
+      ],
+      "addOns": [
+        {
+          "name": "Roasted Garlic Herb Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Smoky Chipotle Mayo Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Side Seasoned Fries",
+          "price": 3.5
+        },
+        {
+          "name": "Chilled Craft Berry Soda",
+          "price": 2.75
+        }
+      ],
+      "ingredientsList": [
+        "Artisan Dough",
+        "Fajita Spiced Chicken",
+        "Bell Peppers",
+        "Red Onion",
+        "Jalapeños",
+        "Mozzarella"
+      ],
+      "recipe": [
+        {
+          "inventoryItemId": "inv-flour",
+          "ingredientName": "Italian 00 Artisan Flour",
+          "quantityPerUnit": 0.3,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-cheese",
+          "ingredientName": "Aged Fior di Latte Mozzarella & Cheddar",
+          "quantityPerUnit": 0.18,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-chicken",
+          "ingredientName": "Prime Free-Range Chicken Fillet & Wings",
+          "quantityPerUnit": 0.18,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-veg",
+          "ingredientName": "Fresh Bell Peppers, Olives, Onions & Basil",
+          "quantityPerUnit": 0.12,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-packaging",
+          "ingredientName": "Thermal Kraft Boxes, Clamshells & Carrier Bags",
+          "quantityPerUnit": 1,
+          "unit": "pcs"
+        }
+      ],
+      "prepTimeMinutes": 16,
+      "isAvailable": true,
+      "isFeatured": false,
+      "rating": 4.7,
+      "reviewCount": 24,
+      "totalSold": 86,
+      "isDemo": true,
+      "createdAt": "2026-09-15T06:47:24.483Z"
+    },
+    {
+      "id": "prod-pizza-tikka",
+      "name": "Charcoal Chicken Tikka & Cilantro Pizza",
+      "categoryId": "cat-pizza",
+      "categoryName": "Artisanal Pizzas",
+      "description": "Tandoori-roasted chicken tikka chunks, crisp red onions, green chilies, mozzarella, and a drizzle of cool mint-garlic chutney.",
+      "image": "/src/assets/images/food_pizza_crown_crust_1791612750318.jpg",
+      "basePrice": 15.9,
+      "sizes": [
+        {
+          "name": "Regular (10\")",
+          "price": 0
+        },
+        {
+          "name": "Medium (12\")",
+          "price": 4
+        },
+        {
+          "name": "Large (14\")",
+          "price": 8
+        },
+        {
+          "name": "Family (16\")",
+          "price": 12
+        }
+      ],
+      "crusts": [
+        {
+          "name": "Artisan Hand-Tossed",
+          "price": 0
+        },
+        {
+          "name": "Thin & Crispy Roman",
+          "price": 1
+        },
+        {
+          "name": "Royal Crown Crust (Cheese & Kebab Pockets)",
+          "price": 3.5
+        },
+        {
+          "name": "Molten Cheese Burst Crust",
+          "price": 4
+        }
+      ],
+      "toppings": [
+        {
+          "name": "Extra Fior di Latte Mozzarella",
+          "price": 2.5
+        },
+        {
+          "name": "Smoked Beef Pepperoni",
+          "price": 2.75
+        },
+        {
+          "name": "Chargrilled Tikka Chicken",
+          "price": 3
+        },
+        {
+          "name": "Roasted Jalapeños & Black Olives",
+          "price": 1.5
+        },
+        {
+          "name": "Caramelized Onions & Mushrooms",
+          "price": 1.75
+        }
+      ],
+      "addOns": [
+        {
+          "name": "Roasted Garlic Herb Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Smoky Chipotle Mayo Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Side Seasoned Fries",
+          "price": 3.5
+        },
+        {
+          "name": "Chilled Craft Berry Soda",
+          "price": 2.75
+        }
+      ],
+      "ingredientsList": [
+        "Artisan Dough",
+        "Chicken Tikka",
+        "Red Onion",
+        "Mozzarella",
+        "Mint Chutney Drizzle"
+      ],
+      "recipe": [
+        {
+          "inventoryItemId": "inv-flour",
+          "ingredientName": "Italian 00 Artisan Flour",
+          "quantityPerUnit": 0.3,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-cheese",
+          "ingredientName": "Aged Fior di Latte Mozzarella & Cheddar",
+          "quantityPerUnit": 0.18,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-chicken",
+          "ingredientName": "Prime Free-Range Chicken Fillet & Wings",
+          "quantityPerUnit": 0.18,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-packaging",
+          "ingredientName": "Thermal Kraft Boxes, Clamshells & Carrier Bags",
+          "quantityPerUnit": 1,
+          "unit": "pcs"
+        }
+      ],
+      "prepTimeMinutes": 16,
+      "isAvailable": true,
+      "isFeatured": false,
+      "rating": 4.8,
+      "reviewCount": 31,
+      "totalSold": 94,
+      "isDemo": true,
+      "createdAt": "2026-09-16T06:47:24.483Z"
+    },
+    {
+      "id": "prod-pizza-bbq",
+      "name": "Hickory Smoked BBQ Chicken & Cheddar Pizza",
+      "categoryId": "cat-pizza",
+      "categoryName": "Artisanal Pizzas",
+      "description": "Hickory BBQ glaze base topped with pulled roasted chicken, smoked gouda & mozzarella, sweet corn, and caramelized shallots.",
+      "image": "/src/assets/images/food_pizza_crown_crust_1791612750318.jpg",
+      "basePrice": 16.2,
+      "sizes": [
+        {
+          "name": "Regular (10\")",
+          "price": 0
+        },
+        {
+          "name": "Medium (12\")",
+          "price": 4
+        },
+        {
+          "name": "Large (14\")",
+          "price": 8
+        },
+        {
+          "name": "Family (16\")",
+          "price": 12
+        }
+      ],
+      "crusts": [
+        {
+          "name": "Artisan Hand-Tossed",
+          "price": 0
+        },
+        {
+          "name": "Thin & Crispy Roman",
+          "price": 1
+        },
+        {
+          "name": "Royal Crown Crust (Cheese & Kebab Pockets)",
+          "price": 3.5
+        },
+        {
+          "name": "Molten Cheese Burst Crust",
+          "price": 4
+        }
+      ],
+      "toppings": [
+        {
+          "name": "Extra Fior di Latte Mozzarella",
+          "price": 2.5
+        },
+        {
+          "name": "Smoked Beef Pepperoni",
+          "price": 2.75
+        },
+        {
+          "name": "Chargrilled Tikka Chicken",
+          "price": 3
+        },
+        {
+          "name": "Roasted Jalapeños & Black Olives",
+          "price": 1.5
+        },
+        {
+          "name": "Caramelized Onions & Mushrooms",
+          "price": 1.75
+        }
+      ],
+      "addOns": [
+        {
+          "name": "Roasted Garlic Herb Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Smoky Chipotle Mayo Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Side Seasoned Fries",
+          "price": 3.5
+        },
+        {
+          "name": "Chilled Craft Berry Soda",
+          "price": 2.75
+        }
+      ],
+      "ingredientsList": [
+        "Artisan Dough",
+        "Hickory BBQ Base",
+        "Pulled Chicken",
+        "Smoked Gouda",
+        "Caramelized Shallots"
+      ],
+      "recipe": [
+        {
+          "inventoryItemId": "inv-flour",
+          "ingredientName": "Italian 00 Artisan Flour",
+          "quantityPerUnit": 0.3,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-cheese",
+          "ingredientName": "Aged Fior di Latte Mozzarella & Cheddar",
+          "quantityPerUnit": 0.2,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-chicken",
+          "ingredientName": "Prime Free-Range Chicken Fillet & Wings",
+          "quantityPerUnit": 0.18,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-packaging",
+          "ingredientName": "Thermal Kraft Boxes, Clamshells & Carrier Bags",
+          "quantityPerUnit": 1,
+          "unit": "pcs"
+        }
+      ],
+      "prepTimeMinutes": 16,
+      "isAvailable": true,
+      "isFeatured": false,
+      "rating": 4.7,
+      "reviewCount": 19,
+      "totalSold": 72,
+      "isDemo": true,
+      "createdAt": "2026-09-18T06:47:24.483Z"
+    },
+    {
+      "id": "prod-pizza-margherita",
+      "name": "Classic Neapolitan Margherita Pizza",
+      "categoryId": "cat-pizza",
+      "categoryName": "Artisanal Pizzas",
+      "description": "Crushed San Marzano DOP tomatoes, fresh buffalo mozzarella, sweet garden basil leaves, and cold-pressed extra virgin olive oil.",
+      "image": "/src/assets/images/hero_artisan_pizza_feast_1791612739930.jpg",
+      "basePrice": 13.9,
+      "sizes": [
+        {
+          "name": "Regular (10\")",
+          "price": 0
+        },
+        {
+          "name": "Medium (12\")",
+          "price": 4
+        },
+        {
+          "name": "Large (14\")",
+          "price": 8
+        },
+        {
+          "name": "Family (16\")",
+          "price": 12
+        }
+      ],
+      "crusts": [
+        {
+          "name": "Artisan Hand-Tossed",
+          "price": 0
+        },
+        {
+          "name": "Thin & Crispy Roman",
+          "price": 1
+        },
+        {
+          "name": "Royal Crown Crust (Cheese & Kebab Pockets)",
+          "price": 3.5
+        },
+        {
+          "name": "Molten Cheese Burst Crust",
+          "price": 4
+        }
+      ],
+      "toppings": [
+        {
+          "name": "Extra Fior di Latte Mozzarella",
+          "price": 2.5
+        },
+        {
+          "name": "Smoked Beef Pepperoni",
+          "price": 2.75
+        },
+        {
+          "name": "Chargrilled Tikka Chicken",
+          "price": 3
+        },
+        {
+          "name": "Roasted Jalapeños & Black Olives",
+          "price": 1.5
+        },
+        {
+          "name": "Caramelized Onions & Mushrooms",
+          "price": 1.75
+        }
+      ],
+      "addOns": [
+        {
+          "name": "Roasted Garlic Herb Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Smoky Chipotle Mayo Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Side Seasoned Fries",
+          "price": 3.5
+        },
+        {
+          "name": "Chilled Craft Berry Soda",
+          "price": 2.75
+        }
+      ],
+      "ingredientsList": [
+        "00 Sourdough",
+        "San Marzano Tomato",
+        "Fresh Mozzarella",
+        "Sweet Basil",
+        "EVOO"
+      ],
+      "recipe": [
+        {
+          "inventoryItemId": "inv-flour",
+          "ingredientName": "Italian 00 Artisan Flour",
+          "quantityPerUnit": 0.3,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-cheese",
+          "ingredientName": "Aged Fior di Latte Mozzarella & Cheddar",
+          "quantityPerUnit": 0.22,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-sauces",
+          "ingredientName": "San Marzano Tomato, BBQ & Garlic Toum Sauces",
+          "quantityPerUnit": 0.12,
+          "unit": "L"
+        },
+        {
+          "inventoryItemId": "inv-packaging",
+          "ingredientName": "Thermal Kraft Boxes, Clamshells & Carrier Bags",
+          "quantityPerUnit": 1,
+          "unit": "pcs"
+        }
+      ],
+      "prepTimeMinutes": 14,
+      "isAvailable": true,
+      "isFeatured": false,
+      "rating": 4.9,
+      "reviewCount": 27,
+      "totalSold": 89,
+      "isDemo": true,
+      "createdAt": "2026-09-20T06:47:24.483Z"
+    },
+    {
+      "id": "prod-burger-smash",
+      "name": "Double Black Angus Smash Burger",
+      "categoryId": "cat-burgers",
+      "categoryName": "Craft Burgers",
+      "description": "Two lacy-edged smashed Black Angus beef patties, double aged American cheddar, caramelized onions, house dill pickles, and smoky ember sauce on a toasted brioche bun.",
+      "image": "/src/assets/images/food_burger_double_smash_1791612760067.jpg",
+      "basePrice": 14.5,
+      "sizes": [
+        {
+          "name": "Double Patty (6 oz)",
+          "price": 0
+        },
+        {
+          "name": "Triple Smash (9 oz)",
+          "price": 3.5
+        }
+      ],
+      "crusts": [
+        {
+          "name": "Toasted Artisan Brioche Bun",
+          "price": 0
+        },
+        {
+          "name": "Sesame Potato Roll",
+          "price": 0.5
+        },
+        {
+          "name": "Low-Carb Crisp Lettuce Wrap",
+          "price": 0
+        }
+      ],
+      "toppings": [
+        {
+          "name": "Extra Aged Cheddar Slice",
+          "price": 1.5
+        },
+        {
+          "name": "Crispy Beef Bacon Strips",
+          "price": 2.5
+        },
+        {
+          "name": "Pickled Jalapeños",
+          "price": 1
+        },
+        {
+          "name": "Sunny-Side Farm Egg",
+          "price": 1.75
+        }
+      ],
+      "addOns": [
+        {
+          "name": "Roasted Garlic Herb Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Smoky Chipotle Mayo Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Side Seasoned Fries",
+          "price": 3.5
+        },
+        {
+          "name": "Chilled Craft Berry Soda",
+          "price": 2.75
+        }
+      ],
+      "ingredientsList": [
+        "Black Angus Beef",
+        "Aged Cheddar",
+        "Caramelized Onions",
+        "Dill Pickles",
+        "Brioche Bun",
+        "Ember Sauce"
+      ],
+      "recipe": [
+        {
+          "inventoryItemId": "inv-beef",
+          "ingredientName": "Black Angus Chuck & Brisket Blend",
+          "quantityPerUnit": 0.22,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-cheese",
+          "ingredientName": "Aged Fior di Latte Mozzarella & Cheddar",
+          "quantityPerUnit": 0.06,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-packaging",
+          "ingredientName": "Thermal Kraft Boxes, Clamshells & Carrier Bags",
+          "quantityPerUnit": 1,
+          "unit": "pcs"
+        }
+      ],
+      "prepTimeMinutes": 12,
+      "isAvailable": true,
+      "isFeatured": true,
+      "rating": 4.9,
+      "reviewCount": 62,
+      "totalSold": 175,
+      "isDemo": true,
+      "createdAt": "2026-09-13T06:47:24.483Z"
+    },
+    {
+      "id": "prod-burger-zinger",
+      "name": "Crispy Crunch Mighty Zinger Burger",
+      "categoryId": "cat-burgers",
+      "categoryName": "Craft Burgers",
+      "description": "Buttermilk-brined spicy crispy chicken thigh fillet, melted Monterey Jack cheese, shredded iceberg, jalapeño slaw, and fiery zinger mayo on a sesame seed bun.",
+      "image": "/src/assets/images/food_burger_double_smash_1791612760067.jpg",
+      "basePrice": 12.9,
+      "sizes": [
+        {
+          "name": "Single Fillet",
+          "price": 0
+        },
+        {
+          "name": "Mighty Double Fillet",
+          "price": 4
+        }
+      ],
+      "crusts": [
+        {
+          "name": "Toasted Sesame Brioche",
+          "price": 0
+        },
+        {
+          "name": "Potato Bun",
+          "price": 0.5
+        }
+      ],
+      "toppings": [
+        {
+          "name": "Extra Cheese Slice",
+          "price": 1.5
+        },
+        {
+          "name": "Fiery Nashville Hot Glaze",
+          "price": 1.25
+        },
+        {
+          "name": "Crispy Onion Rings Inside",
+          "price": 1.75
+        }
+      ],
+      "addOns": [
+        {
+          "name": "Roasted Garlic Herb Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Smoky Chipotle Mayo Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Side Seasoned Fries",
+          "price": 3.5
+        },
+        {
+          "name": "Chilled Craft Berry Soda",
+          "price": 2.75
+        }
+      ],
+      "ingredientsList": [
+        "Crispy Chicken Thigh",
+        "Monterey Jack Cheese",
+        "Iceberg Lettuce",
+        "Fiery Zinger Mayo",
+        "Sesame Bun"
+      ],
+      "recipe": [
+        {
+          "inventoryItemId": "inv-chicken",
+          "ingredientName": "Prime Free-Range Chicken Fillet & Wings",
+          "quantityPerUnit": 0.22,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-oil",
+          "ingredientName": "High-Smoke Culinary Frying & Olive Oil",
+          "quantityPerUnit": 0.08,
+          "unit": "L"
+        },
+        {
+          "inventoryItemId": "inv-packaging",
+          "ingredientName": "Thermal Kraft Boxes, Clamshells & Carrier Bags",
+          "quantityPerUnit": 1,
+          "unit": "pcs"
+        }
+      ],
+      "prepTimeMinutes": 12,
+      "isAvailable": true,
+      "isFeatured": true,
+      "rating": 4.8,
+      "reviewCount": 54,
+      "totalSold": 158,
+      "isDemo": true,
+      "createdAt": "2026-09-14T06:47:24.483Z"
+    },
+    {
+      "id": "prod-burger-bbq",
+      "name": "Smokehouse BBQ Brisket & Cheese Burger",
+      "categoryId": "cat-burgers",
+      "categoryName": "Craft Burgers",
+      "description": "Chargrilled beef patty topped with smoked cheddar, crispy shallots, hickory BBQ glaze, and garlic aioli.",
+      "image": "/src/assets/images/food_burger_double_smash_1791612760067.jpg",
+      "basePrice": 13.9,
+      "sizes": [
+        {
+          "name": "Single (6 oz)",
+          "price": 0
+        },
+        {
+          "name": "Double (12 oz)",
+          "price": 4.5
+        }
+      ],
+      "crusts": [
+        {
+          "name": "Toasted Brioche Bun",
+          "price": 0
+        }
+      ],
+      "toppings": [
+        {
+          "name": "Extra Smoked Cheddar",
+          "price": 1.5
+        },
+        {
+          "name": "Beef Bacon",
+          "price": 2.5
+        }
+      ],
+      "addOns": [
+        {
+          "name": "Roasted Garlic Herb Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Smoky Chipotle Mayo Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Side Seasoned Fries",
+          "price": 3.5
+        },
+        {
+          "name": "Chilled Craft Berry Soda",
+          "price": 2.75
+        }
+      ],
+      "ingredientsList": [
+        "Angus Patty",
+        "Smoked Cheddar",
+        "Hickory BBQ Glaze",
+        "Crispy Shallots"
+      ],
+      "recipe": [
+        {
+          "inventoryItemId": "inv-beef",
+          "ingredientName": "Black Angus Chuck & Brisket Blend",
+          "quantityPerUnit": 0.2,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-cheese",
+          "ingredientName": "Aged Fior di Latte Mozzarella & Cheddar",
+          "quantityPerUnit": 0.06,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-packaging",
+          "ingredientName": "Thermal Kraft Boxes, Clamshells & Carrier Bags",
+          "quantityPerUnit": 1,
+          "unit": "pcs"
+        }
+      ],
+      "prepTimeMinutes": 13,
+      "isAvailable": true,
+      "isFeatured": false,
+      "rating": 4.7,
+      "reviewCount": 22,
+      "totalSold": 64,
+      "isDemo": true,
+      "createdAt": "2026-09-19T06:47:24.483Z"
+    },
+    {
+      "id": "prod-wrap-shawarma",
+      "name": "Charcoal Chicken Shawarma Platter & Toum Wrap",
+      "categoryId": "cat-wraps",
+      "categoryName": "Wraps, Shawarma & Sandwiches",
+      "description": "Spit-roasted marinated chicken shawarma wrapped in warm flatbread with whipped Lebanese garlic toum, pickled turnips, sumac onions, and seasoned fries.",
+      "image": "/src/assets/images/food_shawarma_wraps_1791612772317.jpg",
+      "basePrice": 11.9,
+      "sizes": [
+        {
+          "name": "Single Jumbo Wrap",
+          "price": 0
+        },
+        {
+          "name": "Double Wrap Platter with Fries & Dip",
+          "price": 5
+        }
+      ],
+      "crusts": [
+        {
+          "name": "Artisan Saj Flatbread",
+          "price": 0
+        },
+        {
+          "name": "Toasted Tortilla Wrap",
+          "price": 0
+        }
+      ],
+      "toppings": [
+        {
+          "name": "Extra Whipped Garlic Toum",
+          "price": 1.25
+        },
+        {
+          "name": "Halloumi Cheese Slices",
+          "price": 2.25
+        },
+        {
+          "name": "Spicy Harissa Drizzle",
+          "price": 1
+        }
+      ],
+      "addOns": [
+        {
+          "name": "Roasted Garlic Herb Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Smoky Chipotle Mayo Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Side Seasoned Fries",
+          "price": 3.5
+        },
+        {
+          "name": "Chilled Craft Berry Soda",
+          "price": 2.75
+        }
+      ],
+      "ingredientsList": [
+        "Spit-Roasted Chicken",
+        "Saj Flatbread",
+        "Garlic Toum",
+        "Pickles",
+        "Seasoned Fries"
+      ],
+      "recipe": [
+        {
+          "inventoryItemId": "inv-chicken",
+          "ingredientName": "Prime Free-Range Chicken Fillet & Wings",
+          "quantityPerUnit": 0.2,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-sauces",
+          "ingredientName": "San Marzano Tomato, BBQ & Garlic Toum Sauces",
+          "quantityPerUnit": 0.06,
+          "unit": "L"
+        },
+        {
+          "inventoryItemId": "inv-packaging",
+          "ingredientName": "Thermal Kraft Boxes, Clamshells & Carrier Bags",
+          "quantityPerUnit": 1,
+          "unit": "pcs"
+        }
+      ],
+      "prepTimeMinutes": 10,
+      "isAvailable": true,
+      "isFeatured": true,
+      "rating": 4.9,
+      "reviewCount": 41,
+      "totalSold": 134,
+      "isDemo": true,
+      "createdAt": "2026-09-15T06:47:24.483Z"
+    },
+    {
+      "id": "prod-sandwich-club",
+      "name": "Triple-Decker Chargrilled Club Sandwich",
+      "categoryId": "cat-wraps",
+      "categoryName": "Wraps, Shawarma & Sandwiches",
+      "description": "Toasted sourdough stacked with herb-grilled chicken breast, fried farm egg, aged cheddar, beef bacon, vine tomatoes, and herb mayo, served with crispy fries.",
+      "image": "/src/assets/images/food_shawarma_wraps_1791612772317.jpg",
+      "basePrice": 13.5,
+      "sizes": [
+        {
+          "name": "Full 4-Quarter Platter with Fries",
+          "price": 0
+        }
+      ],
+      "crusts": [
+        {
+          "name": "Toasted Country Sourdough",
+          "price": 0
+        },
+        {
+          "name": "Multigrain Artisan Bread",
+          "price": 0.5
+        }
+      ],
+      "toppings": [
+        {
+          "name": "Extra Cheddar & Egg",
+          "price": 2
+        }
+      ],
+      "addOns": [
+        {
+          "name": "Roasted Garlic Herb Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Smoky Chipotle Mayo Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Side Seasoned Fries",
+          "price": 3.5
+        },
+        {
+          "name": "Chilled Craft Berry Soda",
+          "price": 2.75
+        }
+      ],
+      "ingredientsList": [
+        "Grilled Chicken",
+        "Sourdough",
+        "Fried Egg",
+        "Cheddar",
+        "Tomatoes",
+        "Fries"
+      ],
+      "recipe": [
+        {
+          "inventoryItemId": "inv-chicken",
+          "ingredientName": "Prime Free-Range Chicken Fillet & Wings",
+          "quantityPerUnit": 0.18,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-cheese",
+          "ingredientName": "Aged Fior di Latte Mozzarella & Cheddar",
+          "quantityPerUnit": 0.05,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-packaging",
+          "ingredientName": "Thermal Kraft Boxes, Clamshells & Carrier Bags",
+          "quantityPerUnit": 1,
+          "unit": "pcs"
+        }
+      ],
+      "prepTimeMinutes": 12,
+      "isAvailable": true,
+      "isFeatured": false,
+      "rating": 4.7,
+      "reviewCount": 18,
+      "totalSold": 59,
+      "isDemo": true,
+      "createdAt": "2026-09-21T06:47:24.483Z"
+    },
+    {
+      "id": "prod-chicken-combo",
+      "name": "Crispy Golden Fried Chicken & Buffalo Wings Platter",
+      "categoryId": "cat-chicken",
+      "categoryName": "Fried Chicken, Wings & Nuggets",
+      "description": "Pressure-fried golden crispy chicken pieces paired with honey-buffalo glazed hot wings, crunchy chicken nuggets, smoky BBQ dip, and ranch.",
+      "image": "/src/assets/images/food_fried_chicken_wings_1791612782948.jpg",
+      "basePrice": 16.9,
+      "sizes": [
+        {
+          "name": "4 Pcs Chicken + 6 Wings",
+          "price": 0
+        },
+        {
+          "name": "8 Pcs Bucket + 10 Wings",
+          "price": 9.5
+        }
+      ],
+      "crusts": [
+        {
+          "name": "Original Crispy Herb Blend",
+          "price": 0
+        },
+        {
+          "name": "Fiery Spicy Cayenne Blend",
+          "price": 0.5
+        }
+      ],
+      "toppings": [
+        {
+          "name": "Extra 6 Pc Crunchy Nuggets",
+          "price": 4.5
+        },
+        {
+          "name": "Warm Honey Butter Biscuits (2)",
+          "price": 2.5
+        }
+      ],
+      "addOns": [
+        {
+          "name": "Roasted Garlic Herb Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Smoky Chipotle Mayo Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Side Seasoned Fries",
+          "price": 3.5
+        },
+        {
+          "name": "Chilled Craft Berry Soda",
+          "price": 2.75
+        }
+      ],
+      "ingredientsList": [
+        "Free-Range Chicken",
+        "Buffalo Glaze",
+        "Buttermilk Breading",
+        "BBQ & Ranch Dips"
+      ],
+      "recipe": [
+        {
+          "inventoryItemId": "inv-chicken",
+          "ingredientName": "Prime Free-Range Chicken Fillet & Wings",
+          "quantityPerUnit": 0.45,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-oil",
+          "ingredientName": "High-Smoke Culinary Frying & Olive Oil",
+          "quantityPerUnit": 0.12,
+          "unit": "L"
+        },
+        {
+          "inventoryItemId": "inv-packaging",
+          "ingredientName": "Thermal Kraft Boxes, Clamshells & Carrier Bags",
+          "quantityPerUnit": 1,
+          "unit": "pcs"
+        }
+      ],
+      "prepTimeMinutes": 16,
+      "isAvailable": true,
+      "isFeatured": true,
+      "rating": 4.8,
+      "reviewCount": 35,
+      "totalSold": 112,
+      "isDemo": true,
+      "createdAt": "2026-09-17T06:47:24.483Z"
+    },
+    {
+      "id": "prod-pasta-alfredo",
+      "name": "Chargrilled Chicken Fettuccine Alfredo",
+      "categoryId": "cat-pasta-fries",
+      "categoryName": "Pasta, Fries & Snacks",
+      "description": "Artisanal fettuccine ribbons tossed in a velvety Parmigiano-Reggiano and roasted garlic cream sauce, topped with herb-seared chicken breast and parsley.",
+      "image": "/src/assets/images/food_pasta_dessert_drinks_1791612793526.jpg",
+      "basePrice": 14.9,
+      "sizes": [
+        {
+          "name": "Regular Bowl",
+          "price": 0
+        },
+        {
+          "name": "Large Sharing Skillet",
+          "price": 4.5
+        }
+      ],
+      "crusts": [],
+      "toppings": [
+        {
+          "name": "Extra Grilled Chicken Strips",
+          "price": 3
+        },
+        {
+          "name": "Sautéed Cremini Mushrooms",
+          "price": 1.75
+        },
+        {
+          "name": "Garlic Parmesan Breadsticks (2)",
+          "price": 2.5
+        }
+      ],
+      "addOns": [
+        {
+          "name": "Roasted Garlic Herb Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Smoky Chipotle Mayo Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Side Seasoned Fries",
+          "price": 3.5
+        },
+        {
+          "name": "Chilled Craft Berry Soda",
+          "price": 2.75
+        }
+      ],
+      "ingredientsList": [
+        "Fettuccine Pasta",
+        "Parmesan Cream",
+        "Herb Grilled Chicken",
+        "Roasted Garlic"
+      ],
+      "recipe": [
+        {
+          "inventoryItemId": "inv-flour",
+          "ingredientName": "Italian 00 Artisan Flour",
+          "quantityPerUnit": 0.2,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-cheese",
+          "ingredientName": "Aged Fior di Latte Mozzarella & Cheddar",
+          "quantityPerUnit": 0.12,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-chicken",
+          "ingredientName": "Prime Free-Range Chicken Fillet & Wings",
+          "quantityPerUnit": 0.15,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-packaging",
+          "ingredientName": "Thermal Kraft Boxes, Clamshells & Carrier Bags",
+          "quantityPerUnit": 1,
+          "unit": "pcs"
+        }
+      ],
+      "prepTimeMinutes": 14,
+      "isAvailable": true,
+      "isFeatured": false,
+      "rating": 4.8,
+      "reviewCount": 29,
+      "totalSold": 78,
+      "isDemo": true,
+      "createdAt": "2026-09-22T06:47:24.483Z"
+    },
+    {
+      "id": "prod-loaded-fries",
+      "name": "Ember Loaded Cheese & Crispy Beef Fries",
+      "categoryId": "cat-pasta-fries",
+      "categoryName": "Pasta, Fries & Snacks",
+      "description": "Skin-on Russet fries smothered in aged cheddar sauce, smoky beef bacon bits, pickled jalapeños, spring onions, and chipotle drizzle.",
+      "image": "/src/assets/images/hero_artisan_pizza_feast_1791612739930.jpg",
+      "basePrice": 8.9,
+      "sizes": [
+        {
+          "name": "Regular Skillet",
+          "price": 0
+        },
+        {
+          "name": "Large Sharing Tray",
+          "price": 3
+        }
+      ],
+      "crusts": [],
+      "toppings": [
+        {
+          "name": "Add Pulled BBQ Chicken",
+          "price": 2.75
+        }
+      ],
+      "addOns": [],
+      "ingredientsList": [
+        "Russet Fries",
+        "Aged Cheddar Sauce",
+        "Smoky Beef Bits",
+        "Chives",
+        "Chipotle Aioli"
+      ],
+      "recipe": [
+        {
+          "inventoryItemId": "inv-cheese",
+          "ingredientName": "Aged Fior di Latte Mozzarella & Cheddar",
+          "quantityPerUnit": 0.1,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-oil",
+          "ingredientName": "High-Smoke Culinary Frying & Olive Oil",
+          "quantityPerUnit": 0.06,
+          "unit": "L"
+        },
+        {
+          "inventoryItemId": "inv-packaging",
+          "ingredientName": "Thermal Kraft Boxes, Clamshells & Carrier Bags",
+          "quantityPerUnit": 1,
+          "unit": "pcs"
+        }
+      ],
+      "prepTimeMinutes": 9,
+      "isAvailable": true,
+      "isFeatured": false,
+      "rating": 4.7,
+      "reviewCount": 21,
+      "totalSold": 95,
+      "isDemo": true,
+      "createdAt": "2026-09-23T06:47:24.483Z"
+    },
+    {
+      "id": "prod-dessert-lava",
+      "name": "Belgian Molten Chocolate Lava Cake & Berry Soda Duo",
+      "categoryId": "cat-drinks-desserts",
+      "categoryName": "Drinks & Desserts",
+      "description": "Warm dark Belgian chocolate fondant with a liquid ganache center, served with Madagascar vanilla bean gelato and a chilled blackberry-mint spritzer.",
+      "image": "/src/assets/images/food_pasta_dessert_drinks_1791612793526.jpg",
+      "basePrice": 10.5,
+      "sizes": [
+        {
+          "name": "Lava Cake + Gelato",
+          "price": 0
+        },
+        {
+          "name": "Lava Cake + Gelato + Berry Spritzer",
+          "price": 3.5
+        }
+      ],
+      "crusts": [],
+      "toppings": [
+        {
+          "name": "Extra Scoop Vanilla Bean Gelato",
+          "price": 2
+        }
+      ],
+      "addOns": [],
+      "ingredientsList": [
+        "70% Belgian Dark Chocolate",
+        "Vanilla Bean Gelato",
+        "Fresh Raspberries & Blackberries"
+      ],
+      "recipe": [
+        {
+          "inventoryItemId": "inv-flour",
+          "ingredientName": "Italian 00 Artisan Flour",
+          "quantityPerUnit": 0.08,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-packaging",
+          "ingredientName": "Thermal Kraft Boxes, Clamshells & Carrier Bags",
+          "quantityPerUnit": 1,
+          "unit": "pcs"
+        }
+      ],
+      "prepTimeMinutes": 10,
+      "isAvailable": true,
+      "isFeatured": false,
+      "rating": 4.9,
+      "reviewCount": 33,
+      "totalSold": 88,
+      "isDemo": true,
+      "createdAt": "2026-09-24T06:47:24.483Z"
+    },
+    {
+      "id": "prod-deal-family",
+      "name": "The Grand Ember Family Feast (Serves 4–6)",
+      "categoryId": "cat-deals",
+      "categoryName": "Family Deals & Combos",
+      "description": "2 Large Artisanal Pizzas (any flavor), 2 Double Smash or Zinger Burgers, 8 Glazed Buffalo Wings, 1 Large Loaded Fries, and a 4-Pack of Craft Beverages.",
+      "image": "/src/assets/images/hero_artisan_pizza_feast_1791612739930.jpg",
+      "basePrice": 49.9,
+      "sizes": [
+        {
+          "name": "Complete Family Feast (4–6 Guests)",
+          "price": 0
+        }
+      ],
+      "crusts": [
+        {
+          "name": "Standard Hand-Tossed Pizzas",
+          "price": 0
+        },
+        {
+          "name": "Upgrade Both to Crown Crust",
+          "price": 5.5
+        }
+      ],
+      "toppings": [
+        {
+          "name": "Add Molten Lava Cake Duo",
+          "price": 8.5
+        }
+      ],
+      "addOns": [
+        {
+          "name": "Roasted Garlic Herb Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Smoky Chipotle Mayo Dip",
+          "price": 1.5
+        },
+        {
+          "name": "Side Seasoned Fries",
+          "price": 3.5
+        },
+        {
+          "name": "Chilled Craft Berry Soda",
+          "price": 2.75
+        }
+      ],
+      "ingredientsList": [
+        "2 Large Pizzas",
+        "2 Craft Burgers",
+        "8 Hot Wings",
+        "Large Loaded Fries",
+        "4 Drinks"
+      ],
+      "recipe": [
+        {
+          "inventoryItemId": "inv-flour",
+          "ingredientName": "Italian 00 Artisan Flour",
+          "quantityPerUnit": 0.65,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-cheese",
+          "ingredientName": "Aged Fior di Latte Mozzarella & Cheddar",
+          "quantityPerUnit": 0.45,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-chicken",
+          "ingredientName": "Prime Free-Range Chicken Fillet & Wings",
+          "quantityPerUnit": 0.4,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-beef",
+          "ingredientName": "Black Angus Chuck & Brisket Blend",
+          "quantityPerUnit": 0.35,
+          "unit": "kg"
+        },
+        {
+          "inventoryItemId": "inv-packaging",
+          "ingredientName": "Thermal Kraft Boxes, Clamshells & Carrier Bags",
+          "quantityPerUnit": 4,
+          "unit": "pcs"
+        }
+      ],
+      "prepTimeMinutes": 24,
+      "isAvailable": true,
+      "isFeatured": true,
+      "rating": 5,
+      "reviewCount": 44,
+      "totalSold": 91,
+      "isDemo": true,
+      "createdAt": "2026-09-26T06:47:24.483Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord-1791615464772",
+      "orderNumber": "EO-1047",
+      "customerId": "user-owner",
+      "customerName": "Sophia Chen",
+      "customerPhone": "+1-555-0199",
+      "orderType": "delivery",
+      "deliveryAddress": "218 Mercer Street, Apt 5B",
+      "deliveryZone": "Downtown & Culinary District (0–3 km)",
+      "items": [
+        {
+          "productId": "prod-pizza-crown",
+          "productName": "Royal Crown Crust Supreme Pizza",
+          "quantity": 2,
+          "unitBasePrice": 18.5,
+          "selectedSize": {
+            "name": "Medium (12\")",
+            "price": 4
+          },
+          "selectedCrust": {
+            "name": "Royal Crown Crust (Cheese & Kebab Pockets)",
+            "price": 3.5
+          },
+          "selectedToppings": [
+            {
+              "name": "Extra Fior di Latte Mozzarella",
+              "price": 2.5
+            }
+          ],
+          "selectedAddOns": [
+            {
+              "name": "Roasted Garlic Herb Dip",
+              "price": 1.5
+            }
+          ],
+          "specialInstructions": "Extra crispy",
+          "itemUnitTotal": 30,
+          "lineTotal": 60
+        }
+      ],
+      "subtotal": 60,
+      "taxAmount": 4.08,
+      "deliveryFee": 0,
+      "discountAmount": 12,
+      "couponCode": "EMBER20",
+      "totalAmount": 52.08,
+      "estimatedCost": 9.96,
+      "paymentMethod": "cash",
+      "paymentStatus": "Paid",
+      "status": "Delivered",
+      "cashCollected": true,
+      "estimatedDeliveryMinutes": 25,
+      "inventoryDeducted": true,
+      "statusHistory": [
+        {
+          "status": "Pending",
+          "timestamp": "2026-10-10T06:57:44.772Z",
+          "updatedBy": "Marcus Vance (Owner)"
+        },
+        {
+          "status": "Preparing",
+          "timestamp": "2026-10-10T06:57:44.782Z",
+          "updatedBy": "Marcus Vance (Owner)"
+        },
+        {
+          "status": "Ready",
+          "timestamp": "2026-10-10T06:57:44.798Z",
+          "updatedBy": "Marcus Vance (Owner)"
+        },
+        {
+          "status": "Delivered",
+          "timestamp": "2026-10-10T06:57:44.805Z",
+          "updatedBy": "Marcus Vance (Owner)"
+        }
+      ],
+      "isDemo": false,
+      "createdAt": "2026-10-10T06:57:44.772Z",
+      "updatedAt": "2026-10-10T06:57:44.805Z",
+      "prepStartedAt": "2026-10-10T06:57:44.782Z",
+      "readyAt": "2026-10-10T06:57:44.798Z",
+      "assignedRiderId": "user-rider-1",
+      "assignedRiderName": "Tariq Hassan (Delivery Rider)",
+      "deliveredAt": "2026-10-10T06:57:44.805Z"
+    },
+    {
+      "id": "ord-1001",
+      "orderNumber": "EO-1041",
+      "customerId": "user-customer",
+      "customerName": "Sophia Chen",
+      "customerPhone": "+1-555-0199",
+      "customerEmail": "customer@emberandoak.com",
+      "orderType": "delivery",
+      "deliveryAddress": "218 Mercer Street, Apt 5B, New York",
+      "deliveryZone": "Downtown & Culinary District (0–3 km)",
+      "items": [
+        {
+          "productId": "prod-pizza-crown",
+          "productName": "Royal Crown Crust Supreme Pizza",
+          "quantity": 2,
+          "unitBasePrice": 18.5,
+          "selectedSize": {
+            "name": "Large (14\")",
+            "price": 8
+          },
+          "selectedCrust": {
+            "name": "Royal Crown Crust (Cheese & Kebab Pockets)",
+            "price": 3.5
+          },
+          "selectedToppings": [
+            {
+              "name": "Extra Fior di Latte Mozzarella",
+              "price": 2.5
+            }
+          ],
+          "selectedAddOns": [
+            {
+              "name": "Roasted Garlic Herb Dip",
+              "price": 1.5
+            }
+          ],
+          "itemUnitTotal": 34,
+          "lineTotal": 68
+        },
+        {
+          "productId": "prod-dessert-lava",
+          "productName": "Belgian Molten Chocolate Lava Cake & Berry Soda Duo",
+          "quantity": 2,
+          "unitBasePrice": 10.5,
+          "selectedSize": {
+            "name": "Lava Cake + Gelato + Berry Spritzer",
+            "price": 3.5
+          },
+          "selectedToppings": [],
+          "selectedAddOns": [],
+          "itemUnitTotal": 14,
+          "lineTotal": 28
+        }
+      ],
+      "subtotal": 96,
+      "taxAmount": 8.16,
+      "deliveryFee": 0,
+      "discountAmount": 18,
+      "couponCode": "EMBER20",
+      "totalAmount": 86.16,
+      "estimatedCost": 24.5,
+      "paymentMethod": "card",
+      "paymentStatus": "Paid",
+      "status": "Delivered",
+      "orderNotes": "Ring buzzer 5B, thank you!",
+      "assignedRiderId": "user-rider-1",
+      "assignedRiderName": "Tariq Hassan (Delivery Rider)",
+      "cashCollected": true,
+      "estimatedDeliveryMinutes": 25,
+      "prepStartedAt": "2026-10-08T06:07:24.483Z",
+      "readyAt": "2026-10-08T06:27:24.483Z",
+      "deliveredAt": "2026-10-08T06:47:24.483Z",
+      "inventoryDeducted": true,
+      "statusHistory": [
+        {
+          "status": "Pending",
+          "timestamp": "2026-10-08T06:02:24.483Z",
+          "updatedBy": "Sophia Chen"
+        },
+        {
+          "status": "Confirmed",
+          "timestamp": "2026-10-08T06:05:44.483Z",
+          "updatedBy": "Elena Rostova"
+        },
+        {
+          "status": "Preparing",
+          "timestamp": "2026-10-08T06:07:24.483Z",
+          "updatedBy": "Chef Mateo Silva"
+        },
+        {
+          "status": "Ready",
+          "timestamp": "2026-10-08T06:27:24.483Z",
+          "updatedBy": "Chef Mateo Silva"
+        },
+        {
+          "status": "Out for Delivery",
+          "timestamp": "2026-10-08T06:32:24.483Z",
+          "updatedBy": "Tariq Hassan"
+        },
+        {
+          "status": "Delivered",
+          "timestamp": "2026-10-08T06:47:24.483Z",
+          "updatedBy": "Tariq Hassan"
+        }
+      ],
+      "isDemo": true,
+      "createdAt": "2026-10-08T06:02:24.483Z",
+      "updatedAt": "2026-10-08T06:47:24.483Z"
+    },
+    {
+      "id": "ord-1002",
+      "orderNumber": "EO-1042",
+      "customerName": "Marcus Vance Corporate Lunch",
+      "customerPhone": "+1-555-0881",
+      "orderType": "pos-walkin",
+      "tableNumber": "Table 04",
+      "items": [
+        {
+          "productId": "prod-deal-family",
+          "productName": "The Grand Ember Family Feast (Serves 4–6)",
+          "quantity": 3,
+          "unitBasePrice": 49.9,
+          "selectedSize": {
+            "name": "Complete Family Feast (4–6 Guests)",
+            "price": 0
+          },
+          "selectedCrust": {
+            "name": "Upgrade Both to Crown Crust",
+            "price": 5.5
+          },
+          "selectedToppings": [],
+          "selectedAddOns": [],
+          "itemUnitTotal": 55.4,
+          "lineTotal": 166.2
+        }
+      ],
+      "subtotal": 166.2,
+      "taxAmount": 14.13,
+      "deliveryFee": 0,
+      "discountAmount": 10,
+      "couponCode": "FEAST10",
+      "totalAmount": 170.33,
+      "estimatedCost": 48,
+      "paymentMethod": "card",
+      "paymentStatus": "Paid",
+      "status": "Delivered",
+      "orderNotes": "Dine-in group table 04",
+      "cashCollected": true,
+      "estimatedDeliveryMinutes": 20,
+      "deliveredAt": "2026-10-09T06:47:24.483Z",
+      "inventoryDeducted": true,
+      "statusHistory": [
+        {
+          "status": "Confirmed",
+          "timestamp": "2026-10-09T06:17:24.483Z",
+          "updatedBy": "Devon Brooks (POS)"
+        },
+        {
+          "status": "Delivered",
+          "timestamp": "2026-10-09T06:47:24.483Z",
+          "updatedBy": "Devon Brooks (POS)"
+        }
+      ],
+      "isDemo": true,
+      "createdAt": "2026-10-09T06:17:24.483Z",
+      "updatedAt": "2026-10-09T06:47:24.483Z"
+    },
+    {
+      "id": "ord-1003",
+      "orderNumber": "EO-1043",
+      "customerId": "user-customer",
+      "customerName": "Sophia Chen",
+      "customerPhone": "+1-555-0199",
+      "customerEmail": "customer@emberandoak.com",
+      "orderType": "delivery",
+      "deliveryAddress": "890 Broadway, Floor 8, New York",
+      "deliveryZone": "Midtown & Westside (3–7 km)",
+      "items": [
+        {
+          "productId": "prod-burger-smash",
+          "productName": "Double Black Angus Smash Burger",
+          "quantity": 2,
+          "unitBasePrice": 14.5,
+          "selectedSize": {
+            "name": "Double Patty (6 oz)",
+            "price": 0
+          },
+          "selectedCrust": {
+            "name": "Toasted Artisan Brioche Bun",
+            "price": 0
+          },
+          "selectedToppings": [
+            {
+              "name": "Crispy Beef Bacon Strips",
+              "price": 2.5
+            }
+          ],
+          "selectedAddOns": [
+            {
+              "name": "Side Seasoned Fries",
+              "price": 3.5
+            }
+          ],
+          "specialInstructions": "Extra crispy edges, sauce on the side",
+          "itemUnitTotal": 20.5,
+          "lineTotal": 41
+        },
+        {
+          "productId": "prod-chicken-combo",
+          "productName": "Crispy Golden Fried Chicken & Buffalo Wings Platter",
+          "quantity": 1,
+          "unitBasePrice": 16.9,
+          "selectedSize": {
+            "name": "4 Pcs Chicken + 6 Wings",
+            "price": 0
+          },
+          "selectedCrust": {
+            "name": "Fiery Spicy Cayenne Blend",
+            "price": 0.5
+          },
+          "selectedToppings": [],
+          "selectedAddOns": [],
+          "itemUnitTotal": 17.4,
+          "lineTotal": 17.4
+        }
+      ],
+      "subtotal": 58.4,
+      "taxAmount": 4.96,
+      "deliveryFee": 0,
+      "discountAmount": 0,
+      "totalAmount": 63.36,
+      "estimatedCost": 16.8,
+      "paymentMethod": "cash",
+      "paymentStatus": "Pending",
+      "status": "Out for Delivery",
+      "orderNotes": "Call upon arrival at reception desk. Cash on delivery.",
+      "assignedRiderId": "user-rider-1",
+      "assignedRiderName": "Tariq Hassan (Delivery Rider)",
+      "cashCollected": false,
+      "estimatedDeliveryMinutes": 35,
+      "prepStartedAt": "2026-10-10T06:22:24.483Z",
+      "readyAt": "2026-10-10T06:40:24.483Z",
+      "inventoryDeducted": true,
+      "statusHistory": [
+        {
+          "status": "Pending",
+          "timestamp": "2026-10-10T06:17:24.483Z",
+          "updatedBy": "Sophia Chen"
+        },
+        {
+          "status": "Confirmed",
+          "timestamp": "2026-10-10T06:19:54.483Z",
+          "updatedBy": "Elena Rostova"
+        },
+        {
+          "status": "Preparing",
+          "timestamp": "2026-10-10T06:22:24.483Z",
+          "updatedBy": "Chef Mateo Silva"
+        },
+        {
+          "status": "Ready",
+          "timestamp": "2026-10-10T06:40:24.483Z",
+          "updatedBy": "Chef Mateo Silva"
+        },
+        {
+          "status": "Out for Delivery",
+          "timestamp": "2026-10-10T06:42:24.483Z",
+          "updatedBy": "Tariq Hassan"
+        }
+      ],
+      "isDemo": true,
+      "createdAt": "2026-10-10T06:17:24.483Z",
+      "updatedAt": "2026-10-10T06:42:24.483Z"
+    },
+    {
+      "id": "ord-1004",
+      "orderNumber": "EO-1044",
+      "customerName": "Lucas Meyer",
+      "customerPhone": "+1-555-0344",
+      "orderType": "delivery",
+      "deliveryAddress": "45 Greene Street, Loft 3, New York",
+      "deliveryZone": "Downtown & Culinary District (0–3 km)",
+      "items": [
+        {
+          "productId": "prod-pizza-pepperoni",
+          "productName": "Wood-Fired Double Pepperoni & Basil Pizza",
+          "quantity": 1,
+          "unitBasePrice": 16.5,
+          "selectedSize": {
+            "name": "Large (14\")",
+            "price": 8
+          },
+          "selectedCrust": {
+            "name": "Molten Cheese Burst Crust",
+            "price": 4
+          },
+          "selectedToppings": [
+            {
+              "name": "Smoked Beef Pepperoni",
+              "price": 2.75
+            }
+          ],
+          "selectedAddOns": [
+            {
+              "name": "Roasted Garlic Herb Dip",
+              "price": 1.5
+            }
+          ],
+          "specialInstructions": "Well done crust please",
+          "itemUnitTotal": 32.75,
+          "lineTotal": 32.75
+        },
+        {
+          "productId": "prod-wrap-shawarma",
+          "productName": "Charcoal Chicken Shawarma Platter & Toum Wrap",
+          "quantity": 1,
+          "unitBasePrice": 11.9,
+          "selectedSize": {
+            "name": "Double Wrap Platter with Fries & Dip",
+            "price": 5
+          },
+          "selectedCrust": {
+            "name": "Artisan Saj Flatbread",
+            "price": 0
+          },
+          "selectedToppings": [
+            {
+              "name": "Extra Whipped Garlic Toum",
+              "price": 1.25
+            }
+          ],
+          "selectedAddOns": [],
+          "itemUnitTotal": 18.15,
+          "lineTotal": 18.15
+        }
+      ],
+      "subtotal": 50.9,
+      "taxAmount": 4.33,
+      "deliveryFee": 0,
+      "discountAmount": 0,
+      "totalAmount": 55.23,
+      "estimatedCost": 14.2,
+      "paymentMethod": "online",
+      "paymentStatus": "Paid",
+      "status": "Preparing",
+      "orderNotes": "Extra napkins and chili flakes",
+      "assignedRiderId": "user-rider-1",
+      "assignedRiderName": "Tariq Hassan (Delivery Rider)",
+      "cashCollected": true,
+      "estimatedDeliveryMinutes": 25,
+      "prepStartedAt": "2026-10-10T06:39:24.483Z",
+      "inventoryDeducted": true,
+      "statusHistory": [
+        {
+          "status": "Pending",
+          "timestamp": "2026-10-10T06:36:24.483Z",
+          "updatedBy": "Lucas Meyer"
+        },
+        {
+          "status": "Confirmed",
+          "timestamp": "2026-10-10T06:38:24.483Z",
+          "updatedBy": "Devon Brooks"
+        },
+        {
+          "status": "Preparing",
+          "timestamp": "2026-10-10T06:39:24.483Z",
+          "updatedBy": "Chef Mateo Silva"
+        }
+      ],
+      "isDemo": true,
+      "createdAt": "2026-10-10T06:36:24.483Z",
+      "updatedAt": "2026-10-10T06:39:24.483Z"
+    },
+    {
+      "id": "ord-1005",
+      "orderNumber": "EO-1045",
+      "customerName": "Amira Patel",
+      "customerPhone": "+1-555-0712",
+      "orderType": "takeaway",
+      "items": [
+        {
+          "productId": "prod-burger-zinger",
+          "productName": "Crispy Crunch Mighty Zinger Burger",
+          "quantity": 2,
+          "unitBasePrice": 12.9,
+          "selectedSize": {
+            "name": "Mighty Double Fillet",
+            "price": 4
+          },
+          "selectedCrust": {
+            "name": "Toasted Sesame Brioche",
+            "price": 0
+          },
+          "selectedToppings": [
+            {
+              "name": "Fiery Nashville Hot Glaze",
+              "price": 1.25
+            }
+          ],
+          "selectedAddOns": [],
+          "specialInstructions": "Pack sauces separately for takeaway",
+          "itemUnitTotal": 18.15,
+          "lineTotal": 36.3
+        },
+        {
+          "productId": "prod-loaded-fries",
+          "productName": "Ember Loaded Cheese & Crispy Beef Fries",
+          "quantity": 1,
+          "unitBasePrice": 8.9,
+          "selectedSize": {
+            "name": "Large Sharing Tray",
+            "price": 3
+          },
+          "selectedToppings": [],
+          "selectedAddOns": [],
+          "itemUnitTotal": 11.9,
+          "lineTotal": 11.9
+        }
+      ],
+      "subtotal": 48.2,
+      "taxAmount": 4.1,
+      "deliveryFee": 0,
+      "discountAmount": 0,
+      "totalAmount": 52.3,
+      "estimatedCost": 13.4,
+      "paymentMethod": "card",
+      "paymentStatus": "Paid",
+      "status": "Confirmed",
+      "orderNotes": "Customer picking up at counter in 15 mins",
+      "cashCollected": true,
+      "estimatedDeliveryMinutes": 15,
+      "inventoryDeducted": false,
+      "statusHistory": [
+        {
+          "status": "Pending",
+          "timestamp": "2026-10-10T06:43:24.483Z",
+          "updatedBy": "Amira Patel"
+        },
+        {
+          "status": "Confirmed",
+          "timestamp": "2026-10-10T06:44:24.483Z",
+          "updatedBy": "Devon Brooks"
+        }
+      ],
+      "isDemo": true,
+      "createdAt": "2026-10-10T06:43:24.483Z",
+      "updatedAt": "2026-10-10T06:44:24.483Z"
+    }
+  ],
+  "payments": [
+    {
+      "id": "pay-1791615464805",
+      "orderId": "ord-1791615464772",
+      "orderNumber": "EO-1047",
+      "amount": 52.08,
+      "method": "cash",
+      "status": "Paid",
+      "transactionRef": "CASH-EO-1047",
+      "processedBy": "Marcus Vance (Owner)",
+      "createdAt": "2026-10-10T06:57:44.805Z"
+    },
+    {
+      "id": "pay-1001",
+      "orderId": "ord-1001",
+      "orderNumber": "EO-1041",
+      "amount": 86.16,
+      "method": "card",
+      "status": "Paid",
+      "transactionRef": "TXN-STRIPE-98412",
+      "processedBy": "Online Checkout",
+      "createdAt": "2026-10-08T06:02:24.483Z"
+    },
+    {
+      "id": "pay-1002",
+      "orderId": "ord-1002",
+      "orderNumber": "EO-1042",
+      "amount": 170.33,
+      "method": "card",
+      "status": "Paid",
+      "transactionRef": "POS-TERM-4421",
+      "processedBy": "Devon Brooks (POS Cashier)",
+      "createdAt": "2026-10-09T06:17:24.483Z"
+    },
+    {
+      "id": "pay-1004",
+      "orderId": "ord-1004",
+      "orderNumber": "EO-1044",
+      "amount": 55.23,
+      "method": "online",
+      "status": "Paid",
+      "transactionRef": "TXN-ONLINE-77319",
+      "processedBy": "Online Checkout",
+      "createdAt": "2026-10-10T06:36:24.483Z"
+    },
+    {
+      "id": "pay-1005",
+      "orderId": "ord-1005",
+      "orderNumber": "EO-1045",
+      "amount": 52.3,
+      "method": "card",
+      "status": "Paid",
+      "transactionRef": "POS-TERM-4490",
+      "processedBy": "Devon Brooks (POS Cashier)",
+      "createdAt": "2026-10-10T06:43:24.483Z"
+    }
+  ],
+  "refunds": [],
+  "inventory": [
+    {
+      "id": "inv-flour",
+      "name": "Italian 00 Artisan Flour",
+      "category": "Flour & Dough",
+      "currentStock": 83.8,
+      "unit": "kg",
+      "minStockLevel": 25,
+      "costPerUnit": 2.2,
+      "supplierId": "sup-1",
+      "supplierName": "Harvest Mill & Grain Co.",
+      "expiryDate": "2027-03-15",
+      "wastageLogged": 1.5,
+      "lastRestockedAt": "2026-10-05",
+      "isDemo": true
+    },
+    {
+      "id": "inv-cheese",
+      "name": "Aged Fior di Latte Mozzarella & Cheddar",
+      "category": "Cheese & Dairy",
+      "currentStock": 41.5,
+      "unit": "kg",
+      "minStockLevel": 15,
+      "costPerUnit": 8.5,
+      "supplierId": "sup-2",
+      "supplierName": "Alpine Valley Dairy",
+      "expiryDate": "2026-11-20",
+      "wastageLogged": 0.8,
+      "lastRestockedAt": "2026-10-06",
+      "isDemo": true
+    },
+    {
+      "id": "inv-chicken",
+      "name": "Prime Free-Range Chicken Fillet & Wings",
+      "category": "Meats & Poultry",
+      "currentStock": 13.84,
+      "unit": "kg",
+      "minStockLevel": 18,
+      "costPerUnit": 6.8,
+      "supplierId": "sup-3",
+      "supplierName": "Prime Pastures Meats",
+      "expiryDate": "2026-10-25",
+      "wastageLogged": 0.5,
+      "lastRestockedAt": "2026-10-04",
+      "isDemo": true
+    },
+    {
+      "id": "inv-beef",
+      "name": "Black Angus Chuck & Brisket Blend",
+      "category": "Meats & Poultry",
+      "currentStock": 36,
+      "unit": "kg",
+      "minStockLevel": 15,
+      "costPerUnit": 9.4,
+      "supplierId": "sup-3",
+      "supplierName": "Prime Pastures Meats",
+      "expiryDate": "2026-10-28",
+      "wastageLogged": 0.4,
+      "lastRestockedAt": "2026-10-07",
+      "isDemo": true
+    },
+    {
+      "id": "inv-sauces",
+      "name": "San Marzano Tomato, BBQ & Garlic Toum Sauces",
+      "category": "Sauces & Oils",
+      "currentStock": 27.8,
+      "unit": "L",
+      "minStockLevel": 10,
+      "costPerUnit": 4.1,
+      "supplierId": "sup-1",
+      "supplierName": "Harvest Mill & Grain Co.",
+      "expiryDate": "2027-01-30",
+      "wastageLogged": 0.2,
+      "lastRestockedAt": "2026-10-02",
+      "isDemo": true
+    },
+    {
+      "id": "inv-veg",
+      "name": "Fresh Bell Peppers, Olives, Onions & Basil",
+      "category": "Vegetables",
+      "currentStock": 9.5,
+      "unit": "kg",
+      "minStockLevel": 12,
+      "costPerUnit": 3.5,
+      "supplierId": "sup-2",
+      "supplierName": "Alpine Valley Dairy",
+      "expiryDate": "2026-10-18",
+      "wastageLogged": 1.1,
+      "lastRestockedAt": "2026-10-08",
+      "isDemo": true
+    },
+    {
+      "id": "inv-oil",
+      "name": "High-Smoke Culinary Frying & Olive Oil",
+      "category": "Sauces & Oils",
+      "currentStock": 45,
+      "unit": "L",
+      "minStockLevel": 15,
+      "costPerUnit": 3.2,
+      "supplierId": "sup-1",
+      "supplierName": "Harvest Mill & Grain Co.",
+      "expiryDate": "2027-04-10",
+      "wastageLogged": 0,
+      "lastRestockedAt": "2026-10-01",
+      "isDemo": true
+    },
+    {
+      "id": "inv-packaging",
+      "name": "Thermal Kraft Boxes, Clamshells & Carrier Bags",
+      "category": "Packaging",
+      "currentStock": 338,
+      "unit": "pcs",
+      "minStockLevel": 100,
+      "costPerUnit": 0.45,
+      "supplierId": "sup-4",
+      "supplierName": "EcoPack Foodservice Solutions",
+      "expiryDate": "2028-12-31",
+      "wastageLogged": 4,
+      "lastRestockedAt": "2026-09-28",
+      "isDemo": true
+    }
+  ],
+  "suppliers": [
+    {
+      "id": "sup-1",
+      "name": "Harvest Mill & Grain Co.",
+      "contactPerson": "Antonio Moretti",
+      "phone": "+1 (555) 890-1122",
+      "email": "orders@harvestmill.com",
+      "itemsSupplied": [
+        "Italian 00 Artisan Flour",
+        "San Marzano Tomato, BBQ & Garlic Toum Sauces",
+        "High-Smoke Culinary Frying & Olive Oil"
+      ],
+      "totalPurchasesAmount": 8450,
+      "balanceDue": 620,
+      "lastSupplyDate": "2026-10-05",
+      "isDemo": true
+    },
+    {
+      "id": "sup-2",
+      "name": "Alpine Valley Dairy & Produce",
+      "contactPerson": "Clara Lindqvist",
+      "phone": "+1 (555) 890-3344",
+      "email": "supply@alpinevalley.com",
+      "itemsSupplied": [
+        "Aged Fior di Latte Mozzarella & Cheddar",
+        "Fresh Bell Peppers, Olives, Onions & Basil"
+      ],
+      "totalPurchasesAmount": 12300,
+      "balanceDue": 0,
+      "lastSupplyDate": "2026-10-08",
+      "isDemo": true
+    },
+    {
+      "id": "sup-3",
+      "name": "Prime Pastures Meats",
+      "contactPerson": "Robert Sterling",
+      "phone": "+1 (555) 890-5566",
+      "email": "dispatch@primepastures.com",
+      "itemsSupplied": [
+        "Prime Free-Range Chicken Fillet & Wings",
+        "Black Angus Chuck & Brisket Blend"
+      ],
+      "totalPurchasesAmount": 16800,
+      "balanceDue": 1450,
+      "lastSupplyDate": "2026-10-07",
+      "isDemo": true
+    },
+    {
+      "id": "sup-4",
+      "name": "EcoPack Foodservice Solutions",
+      "contactPerson": "Hannah Cho",
+      "phone": "+1 (555) 890-7788",
+      "email": "sales@ecopack.io",
+      "itemsSupplied": [
+        "Thermal Kraft Boxes, Clamshells & Carrier Bags"
+      ],
+      "totalPurchasesAmount": 3200,
+      "balanceDue": 0,
+      "lastSupplyDate": "2026-09-28",
+      "isDemo": true
+    }
+  ],
+  "staff": [
+    {
+      "id": "staff-1",
+      "name": "Elena Rostova",
+      "email": "manager@emberandoak.com",
+      "phone": "+1-555-0102",
+      "role": "manager",
+      "salaryMonthly": 5200,
+      "shift": "Full Day",
+      "attendanceToday": "Present",
+      "daysPresentThisMonth": 24,
+      "status": "Active",
+      "joinedDate": "2024-03-10",
+      "isDemo": true
+    },
+    {
+      "id": "staff-2",
+      "name": "Chef Mateo Silva",
+      "email": "kitchen@emberandoak.com",
+      "phone": "+1-555-0104",
+      "role": "kitchen",
+      "salaryMonthly": 4600,
+      "shift": "Morning (09:00 - 17:00)",
+      "attendanceToday": "Present",
+      "daysPresentThisMonth": 25,
+      "status": "Active",
+      "joinedDate": "2024-05-15",
+      "isDemo": true
+    },
+    {
+      "id": "staff-3",
+      "name": "Devon Brooks",
+      "email": "cashier@emberandoak.com",
+      "phone": "+1-555-0103",
+      "role": "cashier",
+      "salaryMonthly": 3200,
+      "shift": "Morning (09:00 - 17:00)",
+      "attendanceToday": "Present",
+      "daysPresentThisMonth": 23,
+      "status": "Active",
+      "joinedDate": "2025-01-20",
+      "isDemo": true
+    },
+    {
+      "id": "staff-4",
+      "name": "Tariq Hassan",
+      "email": "rider@emberandoak.com",
+      "phone": "+1-555-0105",
+      "role": "rider",
+      "salaryMonthly": 2900,
+      "shift": "Evening (16:00 - 00:00)",
+      "attendanceToday": "Present",
+      "daysPresentThisMonth": 24,
+      "status": "Active",
+      "joinedDate": "2025-02-11",
+      "isDemo": true
+    },
+    {
+      "id": "staff-5",
+      "name": "Liam O’Connor",
+      "email": "liam.rider@emberandoak.com",
+      "phone": "+1-555-0106",
+      "role": "rider",
+      "salaryMonthly": 2900,
+      "shift": "Morning (09:00 - 17:00)",
+      "attendanceToday": "Present",
+      "daysPresentThisMonth": 21,
+      "status": "Active",
+      "joinedDate": "2025-04-01",
+      "isDemo": true
+    }
+  ],
+  "expenses": [
+    {
+      "id": "exp-1",
+      "title": "Weekly Prime Beef & Poultry Restock",
+      "category": "Ingredient Purchase",
+      "amount": 420,
+      "date": "2026-10-06",
+      "paidTo": "Prime Pastures Meats",
+      "paymentMethod": "online",
+      "notes": "Invoice #PP-9082",
+      "recordedBy": "Elena Rostova (Manager)",
+      "isDemo": true
+    },
+    {
+      "id": "exp-2",
+      "title": "Commercial Kitchen Gas & Wood-Fire Kiln Fuel",
+      "category": "Utilities (Electricity/Gas)",
+      "amount": 185,
+      "date": "2026-10-07",
+      "paidTo": "Metro Energy Utility",
+      "paymentMethod": "online",
+      "notes": "Monthly kiln gas supply",
+      "recordedBy": "Marcus Vance (Owner)",
+      "isDemo": true
+    },
+    {
+      "id": "exp-3",
+      "title": "Artisan Flour & San Marzano Tomatoes",
+      "category": "Ingredient Purchase",
+      "amount": 260,
+      "date": "2026-10-09",
+      "paidTo": "Harvest Mill & Grain Co.",
+      "paymentMethod": "card",
+      "notes": "Batch #HM-441",
+      "recordedBy": "Elena Rostova (Manager)",
+      "isDemo": true
+    }
+  ],
+  "coupons": [
+    {
+      "id": "coup-1",
+      "code": "EMBER20",
+      "description": "20% off orders over $35 (up to $18 max discount)",
+      "discountType": "percentage",
+      "discountValue": 20,
+      "minOrderAmount": 35,
+      "maxDiscountAmount": 18,
+      "usageCount": 35,
+      "usageLimit": 500,
+      "expiresAt": "2027-12-31",
+      "isActive": true,
+      "isDemo": true
+    },
+    {
+      "id": "coup-2",
+      "code": "FEAST10",
+      "description": "$10 flat discount on Family Deals or orders above $45",
+      "discountType": "fixed",
+      "discountValue": 10,
+      "minOrderAmount": 45,
+      "usageCount": 19,
+      "usageLimit": 300,
+      "expiresAt": "2027-12-31",
+      "isActive": true,
+      "isDemo": true
+    },
+    {
+      "id": "coup-3",
+      "code": "WELCOME15",
+      "description": "15% off first online order above $20",
+      "discountType": "percentage",
+      "discountValue": 15,
+      "minOrderAmount": 20,
+      "maxDiscountAmount": 12,
+      "usageCount": 51,
+      "usageLimit": 1000,
+      "expiresAt": "2027-12-31",
+      "isActive": true,
+      "isDemo": true
+    }
+  ],
+  "reviews": [
+    {
+      "id": "rev-1",
+      "productId": "prod-pizza-crown",
+      "productName": "Royal Crown Crust Supreme Pizza",
+      "customerId": "user-customer",
+      "customerName": "Sophia Chen",
+      "rating": 5,
+      "comment": "The stuffed cheddar and chargrilled chicken pockets in the Crown Crust are unreal. Arrived piping hot in 24 minutes!",
+      "createdAt": "2026-10-05T06:47:24.483Z",
+      "isDemo": true
+    },
+    {
+      "id": "rev-2",
+      "productId": "prod-burger-smash",
+      "productName": "Double Black Angus Smash Burger",
+      "rating": 5,
+      "customerName": "Daniel Mercer",
+      "comment": "Crispy lacy edges on the Black Angus patties and the brioche bun holds up great. Easily the best smash burger in the city.",
+      "createdAt": "2026-10-07T06:47:24.483Z",
+      "isDemo": true
+    },
+    {
+      "id": "rev-3",
+      "productId": "prod-wrap-shawarma",
+      "productName": "Charcoal Chicken Shawarma Platter & Toum Wrap",
+      "rating": 5,
+      "customerName": "Nadia Al-Mansoor",
+      "comment": "Authentic garlic toum and smoky chargrilled chicken. The double wrap platter with seasoned fries is huge.",
+      "createdAt": "2026-10-09T06:47:24.483Z",
+      "isDemo": true
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "aud-1791615464805-mofx",
+      "action": "CASH_COLLECTED",
+      "actorName": "Marcus Vance (Owner)",
+      "actorRole": "owner",
+      "details": "Collected $52.08 for Order #EO-1047",
+      "timestamp": "2026-10-10T06:57:44.805Z"
+    },
+    {
+      "id": "aud-1791615464798-oaoo",
+      "action": "ORDER_STATUS_UPDATED",
+      "actorName": "Marcus Vance (Owner)",
+      "actorRole": "owner",
+      "details": "Order #EO-1047 marked as 'Ready'",
+      "timestamp": "2026-10-10T06:57:44.798Z"
+    },
+    {
+      "id": "aud-1791615464784-c1os",
+      "action": "ORDER_STATUS_UPDATED",
+      "actorName": "Marcus Vance (Owner)",
+      "actorRole": "owner",
+      "details": "Order #EO-1047 marked as 'Preparing'",
+      "timestamp": "2026-10-10T06:57:44.784Z"
+    },
+    {
+      "id": "aud-1791615464783-l1py",
+      "action": "INVENTORY_DEDUCTED",
+      "actorName": "Marcus Vance (Owner)",
+      "actorRole": "kitchen",
+      "details": "Automatically deducted recipe stock for Order #EO-1047.",
+      "timestamp": "2026-10-10T06:57:44.783Z"
+    },
+    {
+      "id": "aud-1791615464773-n3xo",
+      "action": "ORDER_CREATED",
+      "actorName": "Marcus Vance (Owner)",
+      "actorRole": "owner",
+      "details": "Created Order #EO-1047 (delivery) Total: $52.08",
+      "timestamp": "2026-10-10T06:57:44.773Z"
+    },
+    {
+      "id": "aud-1",
+      "action": "SYSTEM_SEED_COMPLETED",
+      "actorName": "System",
+      "actorRole": "owner",
+      "details": "Initialized restaurant menu, recipes, inventory stock, and role accounts.",
+      "timestamp": "2026-10-05T06:47:24.483Z"
+    },
+    {
+      "id": "aud-2",
+      "action": "INVENTORY_DEDUCTED",
+      "actorName": "Chef Mateo Silva",
+      "actorRole": "kitchen",
+      "details": "Deducted recipe ingredients for Order #EO-1044 upon entering Preparing state.",
+      "timestamp": "2026-10-10T06:39:24.483Z"
+    }
+  ]
+}

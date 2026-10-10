@@ -1,0 +1,6 @@
+{
+  "name": "Ember & Oak — Restaurant Management & Ordering System",
+  "description": "Complete full-stack restaurant management, online food ordering, POS terminal, kitchen display system (KDS), inventory & recipe cost engine, and delivery rider dispatch platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
