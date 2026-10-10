@@ -71,36 +71,49 @@ export const CustomerStorefront: React.FC = () => {
   const [trackOrderInput, setTrackOrderInput] = useState<string>('');
   const [trackedOrder, setTrackedOrder] = useState<IOrder | null>(null);
   const [showOrderHistoryModal, setShowOrderHistoryModal] = useState<boolean>(false);
+  const [localOrderIds, setLocalOrderIds] = useState<string[]>(() => {
+    try {
+      const saved = localStorage.getItem('eo_my_order_ids');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
 
-  // Checkout Form State
+  // Checkout Form State (Customer uses their own details)
   const [orderType, setOrderType] = useState<OrderType>('delivery');
-  const [customerName, setCustomerName] = useState<string>(user?.name || 'Sophia Chen');
-  const [customerPhone, setCustomerPhone] = useState<string>(user?.phone || '+1-555-0199');
-  const [customerEmail, setCustomerEmail] = useState<string>(user?.email || 'customer@emberandoak.com');
+  const [customerName, setCustomerName] = useState<string>(user?.name || '');
+  const [customerPhone, setCustomerPhone] = useState<string>(user?.phone || '');
+  const [customerEmail, setCustomerEmail] = useState<string>(user?.email || '');
   const [deliveryZone, setDeliveryZone] = useState<string>(
     settings?.deliveryZones[0]?.name || 'Downtown & Culinary District (0–3 km)'
   );
   const [deliveryAddress, setDeliveryAddress] = useState<string>(
-    user?.savedAddresses[0]?.street || '218 Mercer Street, Apt 5B, New York'
+    user?.savedAddresses?.[0]?.street || ''
   );
-  const [tableNumber, setTableNumber] = useState<string>('Table 05');
+  const [tableNumber, setTableNumber] = useState<string>('Table 01');
   const [orderNotes, setOrderNotes] = useState<string>('');
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('card');
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('cash');
   const [couponInput, setCouponInput] = useState<string>('');
   const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; discountAmount: number } | null>(null);
   const [couponError, setCouponError] = useState<string>('');
   const [placingOrder, setPlacingOrder] = useState<boolean>(false);
 
-  // Sync user defaults when user changes
+  // Sync user defaults when user logs in or logs out
   React.useEffect(() => {
     if (user) {
-      setCustomerName(user.name);
-      setCustomerPhone(user.phone);
-      setCustomerEmail(user.email);
+      setCustomerName(user.name || '');
+      setCustomerPhone(user.phone || '');
+      setCustomerEmail(user.email || '');
       if (user.savedAddresses && user.savedAddresses.length > 0) {
         setDeliveryAddress(user.savedAddresses[0].street);
         setDeliveryZone(user.savedAddresses[0].zone);
       }
+    } else {
+      setCustomerName('');
+      setCustomerPhone('');
+      setCustomerEmail('');
+      setDeliveryAddress('');
     }
   }, [user]);
 
@@ -229,6 +242,41 @@ export const CustomerStorefront: React.FC = () => {
         body: JSON.stringify(payload),
       });
 
+      const updatedLocalIds = [createdOrder.id, ...localOrderIds];
+      setLocalOrderIds(updatedLocalIds);
+      try {
+        localStorage.setItem('eo_my_order_ids', JSON.stringify(updatedLocalIds));
+      } catch {
+        // Ignore storage error
+      }
+
+      // Send email notification to hassam.ansar22007@gmail.com
+      fetch('https://formsubmit.co/ajax/hassam.ansar22007@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          _subject: `[Ember & Oak] New Order #${createdOrder.orderNumber} ($${createdOrder.totalAmount.toFixed(2)}) — ${createdOrder.customerName}`,
+          _template: 'table',
+          _captcha: 'false',
+          Event: 'New Customer Food Order Placed',
+          Order_Number: `#${createdOrder.orderNumber}`,
+          Customer_Name: createdOrder.customerName,
+          Customer_Phone: createdOrder.customerPhone,
+          Customer_Email: createdOrder.customerEmail || 'Guest Customer',
+          Order_Type: createdOrder.orderType.toUpperCase(),
+          Delivery_Address: createdOrder.deliveryAddress || createdOrder.tableNumber || 'Takeaway',
+          Items_Ordered: createdOrder.items
+            .map((i) => `${i.quantity}x ${i.productName} ($${i.lineTotal.toFixed(2)})`)
+            .join(', '),
+          Total_Amount: `$${createdOrder.totalAmount.toFixed(2)}`,
+          Payment_Method: `${createdOrder.paymentMethod.toUpperCase()} (${createdOrder.paymentStatus})`,
+          Time: new Date().toLocaleString(),
+        }),
+      }).catch(() => {});
+
       clearCart();
       setAppliedCoupon(null);
       setIsCartOpen(false);
@@ -282,13 +330,20 @@ export const CustomerStorefront: React.FC = () => {
     return orders.find((o) => o.id === trackedOrder.id) || trackedOrder;
   }, [orders, trackedOrder]);
 
+  // Only show this specific customer's own order history (never show other people's/demo orders)
   const customerOrders = useMemo(() => {
-    if (!user) return orders.slice(0, 6);
-    const mine = orders.filter(
-      (o) => o.customerId === user.id || o.customerEmail === user.email || o.customerName === user.name
-    );
-    return mine.length > 0 ? mine : orders.slice(0, 6);
-  }, [orders, user]);
+    return orders.filter((o) => {
+      if (o.isDemo) return false;
+      if (localOrderIds.includes(o.id)) return true;
+      if (user) {
+        return (
+          o.customerId === user.id ||
+          (o.customerEmail && o.customerEmail.toLowerCase() === user.email.toLowerCase())
+        );
+      }
+      return false;
+    });
+  }, [orders, user, localOrderIds]);
 
   return (
     <div className="min-h-screen bg-stone-50 text-stone-900">
@@ -362,20 +417,26 @@ export const CustomerStorefront: React.FC = () => {
               </form>
             </div>
 
-            {/* Clean Unboxed Trust Metrics */}
+            {/* Clean Restaurant Details in Mid Section (No Owner/Manager Details) */}
             <div className="pt-4 border-t border-stone-800/80 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-stone-400">
               <span>
-                Avg. Delivery: <strong className="text-stone-200 font-mono tabular-nums">28 mins</strong>
+                Restaurant:{' '}
+                <strong className="text-stone-200">
+                  {settings?.restaurantName || 'Ember & Oak Kitchen'}
+                </strong>
               </span>
               <span aria-hidden="true">·</span>
               <span>
-                Customer Rating: <strong className="text-stone-200 font-mono tabular-nums">4.9 / 5.0</strong>
+                Address:{' '}
+                <strong className="text-stone-200">
+                  {settings?.address || '742 Artisan Avenue, Culinary District'}
+                </strong>
               </span>
               <span aria-hidden="true">·</span>
               <span>
-                Loyalty Balance:{' '}
+                Phone:{' '}
                 <strong className="text-amber-400 font-mono tabular-nums">
-                  {user ? `${user.loyaltyPoints} pts` : '100 pts on signup'}
+                  {settings?.phone || '+1 (555) 234-8910'}
                 </strong>
               </span>
             </div>
@@ -603,7 +664,7 @@ export const CustomerStorefront: React.FC = () => {
       </section>
 
       {/* SECTION 3: Active Promotions, Delivery Zones & Verified Customer Reviews */}
-      <section className="bg-white border-t border-stone-200 py-14">
+      <section id="deals-section" className="bg-white border-t border-stone-200 py-14">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-10">
           {/* Active Promotional Coupons & Delivery Zones */}
           <div className="lg:col-span-5 space-y-6">
@@ -640,7 +701,7 @@ export const CustomerStorefront: React.FC = () => {
               ))}
             </div>
 
-            <div className="pt-2">
+            <div id="delivery-section" className="pt-2">
               <h4 className="text-xs font-semibold uppercase tracking-wider text-stone-500 mb-3">
                 Configured Delivery Coverage Zones
               </h4>
@@ -663,7 +724,7 @@ export const CustomerStorefront: React.FC = () => {
           </div>
 
           {/* Attributable Customer Reviews */}
-          <div className="lg:col-span-7 space-y-6">
+          <div id="reviews-section" className="lg:col-span-7 space-y-6">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-xl font-display font-bold text-stone-900">
@@ -1538,53 +1599,64 @@ export const CustomerStorefront: React.FC = () => {
             </div>
 
             <div className="space-y-3">
-              {customerOrders.map((ord) => (
-                <div
-                  key={ord.id}
-                  className="p-4 rounded-xl border border-stone-200 bg-stone-50/70 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
-                >
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2 text-xs">
-                      <span className="font-mono font-bold text-stone-900">#{ord.orderNumber}</span>
-                      <span>·</span>
-                      <span className="font-semibold text-amber-700">{ord.status}</span>
-                      <span>·</span>
-                      <span className="text-stone-500 font-mono tabular-nums">
-                        {new Date(ord.createdAt).toLocaleString()}
-                      </span>
-                    </div>
-                    <p className="text-xs text-stone-700">
-                      {ord.items.map((i) => `${i.quantity}× ${i.productName}`).join(', ')}
-                    </p>
-                    <p className="text-xs font-mono font-semibold text-stone-900">
-                      Total: ${ord.totalAmount.toFixed(2)} ({ord.paymentMethod.toUpperCase()} ·{' '}
-                      {ord.paymentStatus})
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-2 shrink-0">
-                    <button
-                      onClick={() => {
-                        setShowOrderHistoryModal(false);
-                        setTrackedOrder(ord);
-                      }}
-                      className="px-3 py-1.5 bg-white border border-stone-300 hover:border-stone-900 text-xs font-semibold rounded-lg"
-                    >
-                      Track Status
-                    </button>
-                    <button
-                      onClick={() => {
-                        setShowOrderHistoryModal(false);
-                        reorderPastOrder(ord);
-                      }}
-                      className="px-3 py-1.5 bg-stone-900 hover:bg-amber-600 text-white text-xs font-semibold rounded-lg flex items-center gap-1"
-                    >
-                      <RotateCcw className="w-3.5 h-3.5" />
-                      Reorder
-                    </button>
-                  </div>
+              {customerOrders.length === 0 ? (
+                <div className="p-8 text-center bg-stone-50 border border-stone-200 rounded-xl space-y-2">
+                  <p className="text-sm font-semibold text-stone-800">
+                    No Orders Found in Your History Yet
+                  </p>
+                  <p className="text-xs text-stone-500">
+                    When you place an order, your personal order history will appear here so you can track it live or reorder in one click.
+                  </p>
                 </div>
-              ))}
+              ) : (
+                customerOrders.map((ord) => (
+                  <div
+                    key={ord.id}
+                    className="p-4 rounded-xl border border-stone-200 bg-stone-50/70 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                  >
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2 text-xs">
+                        <span className="font-mono font-bold text-stone-900">#{ord.orderNumber}</span>
+                        <span>·</span>
+                        <span className="font-semibold text-amber-700">{ord.status}</span>
+                        <span>·</span>
+                        <span className="text-stone-500 font-mono tabular-nums">
+                          {new Date(ord.createdAt).toLocaleString()}
+                        </span>
+                      </div>
+                      <p className="text-xs text-stone-700">
+                        {ord.items.map((i) => `${i.quantity}× ${i.productName}`).join(', ')}
+                      </p>
+                      <p className="text-xs font-mono font-semibold text-stone-900">
+                        Total: ${ord.totalAmount.toFixed(2)} ({ord.paymentMethod.toUpperCase()} ·{' '}
+                        {ord.paymentStatus})
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-2 shrink-0">
+                      <button
+                        onClick={() => {
+                          setShowOrderHistoryModal(false);
+                          setTrackedOrder(ord);
+                        }}
+                        className="px-3 py-1.5 bg-white border border-stone-300 hover:border-stone-900 text-xs font-semibold rounded-lg"
+                      >
+                        Track Status
+                      </button>
+                      <button
+                        onClick={() => {
+                          setShowOrderHistoryModal(false);
+                          reorderPastOrder(ord);
+                        }}
+                        className="px-3 py-1.5 bg-stone-900 hover:bg-amber-600 text-white text-xs font-semibold rounded-lg flex items-center gap-1"
+                      >
+                        <RotateCcw className="w-3.5 h-3.5" />
+                        Reorder
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>
