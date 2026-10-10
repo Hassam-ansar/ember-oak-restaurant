@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -20,6 +20,7 @@ import {
   Truck,
   Mail,
   CheckCircle2,
+  MoreVertical,
 } from 'lucide-react';
 import { RestaurantProvider, useRestaurant } from './context/RestaurantContext';
 import { CustomerStorefront } from './components/CustomerStorefront';
@@ -113,6 +114,7 @@ const NavigationShell: React.FC = () => {
   // Login & Create Account Modal State
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authTab, setAuthTab] = useState<'login' | 'register'>('login');
+  const [authPromptNotice, setAuthPromptNotice] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [regName, setRegName] = useState('');
@@ -122,13 +124,16 @@ const NavigationShell: React.FC = () => {
   const [authError, setAuthError] = useState('');
   const [submittingAuth, setSubmittingAuth] = useState(false);
 
+  // Mobile 3-Dots Vertical Menu State
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   // Restaurant Info Modals (About Restaurant & Delivery Info)
   const [infoModal, setInfoModal] = useState<'about' | 'delivery' | null>(null);
 
   const cartCount = cart.reduce((sum, i) => sum + i.quantity, 0);
 
   // Automatically clear any cached demo "Sophia Chen" session so Login & Create Account buttons appear
-  React.useEffect(() => {
+  useEffect(() => {
     if (
       user &&
       (user.email.toLowerCase() === 'customer@emberandoak.com' ||
@@ -137,6 +142,21 @@ const NavigationShell: React.FC = () => {
       logout();
     }
   }, [user, logout]);
+
+  // Listen for "open-customer-login" event triggered when customer clicks to order without being logged in
+  useEffect(() => {
+    const handleOpenLogin = (e: Event) => {
+      const customEvt = e as CustomEvent<{ message?: string }>;
+      setAuthError('');
+      setAuthPromptNotice(
+        customEvt.detail?.message || 'Please Login or Create an Account first before ordering.'
+      );
+      setAuthTab('login');
+      setShowAuthModal(true);
+    };
+    window.addEventListener('open-customer-login', handleOpenLogin);
+    return () => window.removeEventListener('open-customer-login', handleOpenLogin);
+  }, []);
 
   const activeUser =
     user &&
@@ -152,6 +172,7 @@ const NavigationShell: React.FC = () => {
   );
 
   const scrollToSection = (sectionId: string) => {
+    setMobileMenuOpen(false);
     navigate('/');
     setTimeout(() => {
       const el = document.getElementById(sectionId);
@@ -159,6 +180,18 @@ const NavigationShell: React.FC = () => {
         el.scrollIntoView({ behavior: 'smooth' });
       }
     }, 80);
+  };
+
+  const handleOpenCartOrLogin = () => {
+    setMobileMenuOpen(false);
+    if (!activeUser) {
+      setAuthError('');
+      setAuthPromptNotice('Please Login or Create an Account first to view your bag and place an order.');
+      setAuthTab('login');
+      setShowAuthModal(true);
+      return;
+    }
+    setIsCartOpen(true);
   };
 
   const handleLoginSubmit = async (e: React.FormEvent) => {
@@ -169,6 +202,7 @@ const NavigationShell: React.FC = () => {
       const cleanEmail = email.trim();
       await login(cleanEmail, password);
       setShowAuthModal(false);
+      setAuthPromptNotice('');
       setPassword('');
 
       await sendOwnerNotificationEmail(
@@ -197,6 +231,7 @@ const NavigationShell: React.FC = () => {
 
       await register(cleanName, cleanEmail, cleanPhone, regPassword);
       setShowAuthModal(false);
+      setAuthPromptNotice('');
       setRegPassword('');
 
       await sendOwnerNotificationEmail(
@@ -232,20 +267,21 @@ const NavigationShell: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-stone-50">
-      {/* Main Navbar (Header) */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-stone-200 px-4 sm:px-6 py-3.5">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
-          {/* Restaurant Name / Brand */}
+    <div className="min-h-screen flex flex-col bg-stone-50 overflow-x-hidden w-full max-w-[100vw]">
+      {/* Main Navbar (Header) — Single Row on Desktop, Compact + 3-Dots Vertical Menu on Mobile */}
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-stone-200 px-4 sm:px-6 py-3">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
+          {/* Zone 1: Restaurant Name / Brand */}
           <Link
             to="/"
-            className="text-lg sm:text-xl font-display font-bold tracking-tight text-stone-950 whitespace-nowrap shrink-0"
+            onClick={() => setMobileMenuOpen(false)}
+            className="text-base sm:text-lg font-display font-bold tracking-tight text-stone-950 whitespace-nowrap shrink-0"
           >
             {settings?.restaurantName || 'Ember & Oak'}
           </Link>
 
-          {/* Restaurant Details & Section Buttons */}
-          <nav className="hidden lg:flex items-center gap-5 text-xs font-semibold text-stone-600">
+          {/* Zone 2: Desktop Single-Line Navigation Links */}
+          <nav className="hidden lg:flex items-center gap-5 text-xs font-semibold text-stone-600 shrink-0">
             <button
               type="button"
               onClick={() => scrollToSection('menu-section')}
@@ -283,28 +319,27 @@ const NavigationShell: React.FC = () => {
             </button>
           </nav>
 
-          {/* Right Header Buttons: Install Mobile App, Login, Create Account, Order Bag */}
-          <div className="flex flex-wrap items-center gap-2 shrink-0">
-            {/* Install Mobile App Button in Navbar */}
+          {/* Zone 3: Desktop Single-Line Action Buttons */}
+          <div className="hidden lg:flex items-center gap-2 shrink-0">
             <PWAInstallButton />
 
             {activeUser ? (
               <div className="flex items-center gap-2">
-                <span className="px-3 py-2 bg-stone-100 text-stone-900 rounded-lg text-xs font-semibold">
+                <span className="px-3 py-1.5 bg-stone-100 border border-stone-200 text-stone-900 rounded-lg text-xs font-semibold whitespace-nowrap">
                   {activeUser.name}
                 </span>
                 {isOwnerUser && (
                   <>
                     <Link
                       to="/admin"
-                      className="px-3 py-2 bg-stone-900 hover:bg-amber-600 text-white rounded-lg text-xs font-semibold transition-colors"
+                      className="px-3 py-1.5 bg-stone-900 hover:bg-amber-600 text-white rounded-lg text-xs font-semibold transition-colors whitespace-nowrap"
                     >
                       Admin Panel
                     </Link>
                     <button
                       type="button"
                       onClick={handleSendTestOwnerEmail}
-                      className="px-2.5 py-2 border border-amber-600 text-amber-700 hover:bg-amber-50 rounded-lg text-xs font-semibold flex items-center gap-1"
+                      className="px-2.5 py-1.5 border border-amber-600 text-amber-700 hover:bg-amber-50 rounded-lg text-xs font-semibold flex items-center gap-1 whitespace-nowrap"
                     >
                       <Mail className="w-3.5 h-3.5" />
                       <span>Test Email</span>
@@ -314,7 +349,7 @@ const NavigationShell: React.FC = () => {
                 <button
                   type="button"
                   onClick={logout}
-                  className="px-3 py-2 border border-stone-300 hover:bg-red-50 hover:border-red-300 text-stone-700 hover:text-red-700 rounded-lg text-xs font-semibold flex items-center gap-1 transition-colors"
+                  className="px-3 py-1.5 border border-stone-300 hover:bg-red-50 hover:border-red-300 text-stone-700 hover:text-red-700 rounded-lg text-xs font-semibold flex items-center gap-1 transition-colors whitespace-nowrap"
                 >
                   <LogOut className="w-3.5 h-3.5" />
                   <span>Logout</span>
@@ -326,10 +361,11 @@ const NavigationShell: React.FC = () => {
                   type="button"
                   onClick={() => {
                     setAuthError('');
+                    setAuthPromptNotice('');
                     setAuthTab('login');
                     setShowAuthModal(true);
                   }}
-                  className="px-3.5 py-2 text-xs font-semibold text-stone-800 bg-stone-100 hover:bg-stone-200 border border-stone-300 rounded-lg transition-colors whitespace-nowrap flex items-center gap-1.5"
+                  className="px-3 py-1.5 text-xs font-semibold text-stone-800 bg-stone-100 hover:bg-stone-200 border border-stone-300 rounded-lg transition-colors whitespace-nowrap flex items-center gap-1.5"
                 >
                   <LogIn className="w-3.5 h-3.5" />
                   <span>Login</span>
@@ -339,10 +375,11 @@ const NavigationShell: React.FC = () => {
                   type="button"
                   onClick={() => {
                     setAuthError('');
+                    setAuthPromptNotice('');
                     setAuthTab('register');
                     setShowAuthModal(true);
                   }}
-                  className="px-3.5 py-2 text-xs font-semibold text-white bg-stone-900 hover:bg-stone-800 rounded-lg transition-colors whitespace-nowrap flex items-center gap-1.5"
+                  className="px-3 py-1.5 text-xs font-semibold text-white bg-stone-900 hover:bg-stone-800 rounded-lg transition-colors whitespace-nowrap flex items-center gap-1.5"
                 >
                   <UserPlus className="w-3.5 h-3.5" />
                   <span>Create Account</span>
@@ -352,19 +389,161 @@ const NavigationShell: React.FC = () => {
 
             <button
               type="button"
-              onClick={() => setIsCartOpen(true)}
-              className="px-3.5 py-2 text-xs font-semibold text-white bg-stone-950 hover:bg-amber-600 rounded-lg transition-colors whitespace-nowrap flex items-center gap-1.5"
+              onClick={handleOpenCartOrLogin}
+              className="px-3.5 py-1.5 text-xs font-semibold text-white bg-stone-950 hover:bg-amber-600 rounded-lg transition-colors whitespace-nowrap flex items-center gap-1.5"
             >
               <ShoppingBag className="w-3.5 h-3.5" />
               <span>Order Bag ({cartCount})</span>
             </button>
           </div>
+
+          {/* Mobile Compact Controls: Order Bag + 3-Dots (⋮) Button */}
+          <div className="flex lg:hidden items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={handleOpenCartOrLogin}
+              className="px-3 py-1.5 text-xs font-semibold text-white bg-stone-950 hover:bg-amber-600 rounded-lg transition-colors whitespace-nowrap flex items-center gap-1.5"
+            >
+              <ShoppingBag className="w-3.5 h-3.5" />
+              <span>Bag ({cartCount})</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen((prev) => !prev)}
+              aria-label="Open menu options"
+              className="p-2 rounded-lg border border-stone-300 bg-stone-100 hover:bg-stone-200 text-stone-900 flex items-center justify-center"
+            >
+              {mobileMenuOpen ? <X className="w-4 h-4" /> : <MoreVertical className="w-4 h-4" />}
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Vertical Menu Dropdown (Opens when clicking 3-Dots ⋮ button on mobile) */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden mt-3 pt-3 border-t border-stone-200 flex flex-col gap-2">
+            {/* Account Section in Mobile Menu */}
+            {activeUser ? (
+              <div className="p-3 rounded-xl bg-stone-100 border border-stone-200 flex items-center justify-between gap-2">
+                <div>
+                  <p className="text-[11px] text-stone-500">Signed in as</p>
+                  <p className="text-xs font-bold text-stone-900">{activeUser.name}</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  {isOwnerUser && (
+                    <Link
+                      to="/admin"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="px-3 py-1.5 bg-stone-900 text-white rounded-lg text-xs font-semibold"
+                    >
+                      Admin
+                    </Link>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      logout();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="px-3 py-1.5 bg-white border border-stone-300 text-red-600 rounded-lg text-xs font-semibold flex items-center gap-1"
+                  >
+                    <LogOut className="w-3.5 h-3.5" />
+                    <span>Logout</span>
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setAuthError('');
+                    setAuthPromptNotice('');
+                    setAuthTab('login');
+                    setShowAuthModal(true);
+                  }}
+                  className="py-2.5 px-3 text-xs font-semibold text-stone-900 bg-stone-100 border border-stone-300 rounded-lg flex items-center justify-center gap-1.5"
+                >
+                  <LogIn className="w-3.5 h-3.5" />
+                  <span>Login</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setAuthError('');
+                    setAuthPromptNotice('');
+                    setAuthTab('register');
+                    setShowAuthModal(true);
+                  }}
+                  className="py-2.5 px-3 text-xs font-semibold text-white bg-stone-900 rounded-lg flex items-center justify-center gap-1.5"
+                >
+                  <UserPlus className="w-3.5 h-3.5" />
+                  <span>Create Account</span>
+                </button>
+              </div>
+            )}
+
+            {/* Install Mobile App Button (Automatically hidden if already installed) */}
+            <PWAInstallButton fullWidth />
+
+            {/* Vertical Navigation Options */}
+            <div className="flex flex-col divide-y divide-stone-100 border border-stone-200 rounded-xl bg-stone-50 overflow-hidden text-xs font-semibold text-stone-800">
+              <button
+                type="button"
+                onClick={() => scrollToSection('menu-section')}
+                className="px-4 py-3 text-left hover:bg-stone-100 flex items-center justify-between"
+              >
+                <span>Food Menu</span>
+                <span className="text-stone-400">→</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollToSection('deals-section')}
+                className="px-4 py-3 text-left hover:bg-stone-100 flex items-center justify-between"
+              >
+                <span>Deals &amp; Offers</span>
+                <span className="text-stone-400">→</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setInfoModal('delivery');
+                }}
+                className="px-4 py-3 text-left hover:bg-stone-100 flex items-center justify-between"
+              >
+                <span>Delivery Info &amp; Zones</span>
+                <span className="text-stone-400">→</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollToSection('reviews-section')}
+                className="px-4 py-3 text-left hover:bg-stone-100 flex items-center justify-between"
+              >
+                <span>Customer Reviews</span>
+                <span className="text-stone-400">→</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setInfoModal('about');
+                }}
+                className="px-4 py-3 text-left hover:bg-stone-100 flex items-center justify-between"
+              >
+                <span>About Restaurant</span>
+                <span className="text-stone-400">→</span>
+              </button>
+            </div>
+          </div>
+        )}
       </header>
 
-      {/* Mid Bar: Only Restaurant Details & Mobile Quick Buttons (Zero Owner/Manager Details) */}
+      {/* Mid Bar: Only Restaurant Details (Zero Owner/Manager Details) */}
       <div className="bg-stone-900 text-stone-300 px-4 sm:px-6 py-2 text-xs border-b border-stone-800">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-stone-300">
             <span className="font-semibold text-white">
               {settings?.restaurantName || 'Ember & Oak Kitchen'}
@@ -373,36 +552,20 @@ const NavigationShell: React.FC = () => {
             <span className="hidden sm:inline">
               {settings?.address || '742 Artisan Avenue, Culinary District'}
             </span>
-            <span className="hidden md:inline text-stone-600">·</span>
-            <span className="hidden md:inline text-amber-400 font-mono">
+            <span className="text-stone-600">·</span>
+            <span className="text-amber-400 font-mono">
               {settings?.phone || '+1 (555) 234-8910'}
             </span>
-            <span className="hidden xl:inline text-stone-600">·</span>
-            <span className="hidden xl:inline text-stone-400">
+            <span className="hidden md:inline text-stone-600">·</span>
+            <span className="hidden md:inline text-stone-400">
               Open Daily: 11:00 AM – 11:30 PM
             </span>
-          </div>
-
-          {/* Mobile Restaurant Section Buttons */}
-          <div className="flex lg:hidden items-center gap-3 overflow-x-auto py-0.5 text-[11px] font-semibold text-amber-300">
-            <button type="button" onClick={() => scrollToSection('menu-section')}>
-              Menu
-            </button>
-            <button type="button" onClick={() => scrollToSection('deals-section')}>
-              Deals
-            </button>
-            <button type="button" onClick={() => setInfoModal('delivery')}>
-              Delivery Info
-            </button>
-            <button type="button" onClick={() => setInfoModal('about')}>
-              About Restaurant
-            </button>
           </div>
         </div>
       </div>
 
       {/* Main Viewport */}
-      <main className="flex-1">
+      <main className="flex-1 w-full overflow-x-hidden">
         <Routes>
           <Route path="/" element={<CustomerStorefront />} />
           <Route
@@ -469,9 +632,9 @@ const NavigationShell: React.FC = () => {
       </main>
 
       {/* Clean Restaurant Footer */}
-      <footer className="bg-stone-950 text-stone-400 border-t border-stone-800 py-8 px-6 text-xs">
+      <footer className="bg-stone-950 text-stone-400 border-t border-stone-800 py-8 px-4 sm:px-6 text-xs">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>
+          <div className="text-center sm:text-left">
             <p className="font-display font-bold text-white text-sm">
               {settings?.restaurantName || 'Ember & Oak Kitchen'}
             </p>
@@ -480,7 +643,7 @@ const NavigationShell: React.FC = () => {
               {settings?.phone || '+1 (555) 234-8910'} · Open Daily 11:00 AM – 11:30 PM
             </p>
           </div>
-          <div className="flex flex-wrap items-center gap-5">
+          <div className="flex flex-wrap items-center justify-center gap-5">
             <button
               type="button"
               onClick={() => scrollToSection('menu-section')}
@@ -515,7 +678,7 @@ const NavigationShell: React.FC = () => {
 
       {/* Live Real-Time Toast Notifications */}
       {notifications.length > 0 && (
-        <div className="fixed bottom-4 right-4 z-50 space-y-2 max-w-sm w-full pointer-events-none">
+        <div className="fixed bottom-4 right-4 z-50 space-y-2 max-w-sm w-full px-4 pointer-events-none">
           {notifications.map((n) => (
             <div
               key={n.id}
@@ -544,10 +707,21 @@ const NavigationShell: React.FC = () => {
               <h3 className="text-base font-display font-bold text-stone-900">
                 {authTab === 'login' ? 'Customer Login' : 'Create Your Account'}
               </h3>
-              <button onClick={() => setShowAuthModal(false)}>
+              <button
+                onClick={() => {
+                  setShowAuthModal(false);
+                  setAuthPromptNotice('');
+                }}
+              >
                 <X className="w-5 h-5 text-stone-400 hover:text-stone-700" />
               </button>
             </div>
+
+            {authPromptNotice && (
+              <div className="p-3 rounded-lg bg-amber-50 border border-amber-200 text-xs font-medium text-amber-900">
+                {authPromptNotice}
+              </div>
+            )}
 
             <div className="grid grid-cols-2 gap-1 p-1 bg-stone-100 rounded-lg">
               <button
@@ -616,7 +790,7 @@ const NavigationShell: React.FC = () => {
                   className="w-full py-2.5 bg-stone-900 hover:bg-amber-600 text-white text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-colors"
                 >
                   <LogIn className="w-4 h-4" />
-                  <span>{submittingAuth ? 'Signing In...' : 'Login to Account'}</span>
+                  <span>{submittingAuth ? 'Signing In...' : 'Login to Order'}</span>
                 </button>
                 <p className="text-center text-xs text-stone-500 pt-1">
                   Don&apos;t have an account?{' '}
@@ -689,7 +863,7 @@ const NavigationShell: React.FC = () => {
                   className="w-full py-2.5 bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-colors"
                 >
                   <UserPlus className="w-4 h-4" />
-                  <span>{submittingAuth ? 'Creating Account...' : 'Create Account'}</span>
+                  <span>{submittingAuth ? 'Creating Account...' : 'Create Account & Start Ordering'}</span>
                 </button>
                 <p className="text-center text-xs text-stone-500 pt-1">
                   Already have an account?{' '}

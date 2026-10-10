@@ -8,11 +8,10 @@ interface BeforeInstallPromptEvent extends Event {
 }
 
 const OWNER_NOTIFICATION_EMAIL = 'hassam.ansar22007@gmail.com';
+const INSTALLED_STORAGE_KEY = 'eo_mobile_app_installed_v1';
 
-// Capture Chrome's beforeinstallprompt globally as soon as script loads so it is never missed
 let globalDeferredPrompt: BeforeInstallPromptEvent | null = null;
 if (typeof window !== 'undefined') {
-  // Ensure manifest link exists in <head>
   if (!document.querySelector('link[rel="manifest"]')) {
     const link = document.createElement('link');
     link.rel = 'manifest';
@@ -20,7 +19,6 @@ if (typeof window !== 'undefined') {
     document.head.appendChild(link);
   }
 
-  // Register Service Worker so Chrome enables mobile app installation
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js').catch(() => {});
   }
@@ -53,14 +51,31 @@ async function notifyOwnerByEmail(subject: string, data: Record<string, string>)
   }
 }
 
-export const PWAInstallButton: React.FC = () => {
+export const PWAInstallButton: React.FC<{ fullWidth?: boolean }> = ({ fullWidth = false }) => {
   const { user, apiFetch, pushNotification } = useRestaurant();
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(
     () => globalDeferredPrompt
   );
-  const [isInstalled, setIsInstalled] = useState(false);
+  const [isInstalled, setIsInstalled] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    const standalone =
+      window.matchMedia('(display-mode: standalone)').matches ||
+      (window.navigator as unknown as { standalone?: boolean }).standalone === true ||
+      window.location.search.includes('standalone=1');
+    const savedInstalled = localStorage.getItem(INSTALLED_STORAGE_KEY) === 'true';
+    return standalone || savedInstalled;
+  });
   const [isIOS, setIsIOS] = useState(false);
   const [showGuideModal, setShowGuideModal] = useState(false);
+
+  const markAppInstalled = () => {
+    setIsInstalled(true);
+    try {
+      localStorage.setItem(INSTALLED_STORAGE_KEY, 'true');
+    } catch {
+      // Ignore storage error
+    }
+  };
 
   const reportInstallToBackend = async (platformLabel: string, isStandalone: boolean) => {
     try {
@@ -94,11 +109,23 @@ export const PWAInstallButton: React.FC = () => {
     const isStandalone =
       window.matchMedia('(display-mode: standalone)').matches ||
       (window.navigator as unknown as { standalone?: boolean }).standalone === true;
-    setIsInstalled(isStandalone);
 
-    if (isStandalone && !sessionStorage.getItem('eo_pwa_logged')) {
-      sessionStorage.setItem('eo_pwa_logged', '1');
-      reportInstallToBackend('Installed Mobile Home Screen App', true);
+    if (isStandalone) {
+      markAppInstalled();
+      if (!sessionStorage.getItem('eo_pwa_logged')) {
+        sessionStorage.setItem('eo_pwa_logged', '1');
+        reportInstallToBackend('Installed Mobile Home Screen App', true);
+      }
+    }
+
+    const displayModeMedia = window.matchMedia('(display-mode: standalone)');
+    const handleDisplayModeChange = (e: MediaQueryListEvent) => {
+      if (e.matches) {
+        markAppInstalled();
+      }
+    };
+    if (displayModeMedia.addEventListener) {
+      displayModeMedia.addEventListener('change', handleDisplayModeChange);
     }
 
     const ua = window.navigator.userAgent.toLowerCase();
@@ -121,9 +148,10 @@ export const PWAInstallButton: React.FC = () => {
     };
 
     const handleAppInstalled = () => {
-      setIsInstalled(true);
+      markAppInstalled();
       globalDeferredPrompt = null;
       setDeferredPrompt(null);
+      setShowGuideModal(false);
       reportInstallToBackend('Android / Chrome Home Screen Install', false);
     };
 
@@ -132,6 +160,9 @@ export const PWAInstallButton: React.FC = () => {
     window.addEventListener('appinstalled', handleAppInstalled);
 
     return () => {
+      if (displayModeMedia.removeEventListener) {
+        displayModeMedia.removeEventListener('change', handleDisplayModeChange);
+      }
       window.removeEventListener('pwa-prompt-ready', syncPrompt);
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.removeEventListener('appinstalled', handleAppInstalled);
@@ -144,7 +175,7 @@ export const PWAInstallButton: React.FC = () => {
       await activePrompt.prompt();
       const { outcome } = await activePrompt.userChoice;
       if (outcome === 'accepted') {
-        setIsInstalled(true);
+        markAppInstalled();
         globalDeferredPrompt = null;
         setDeferredPrompt(null);
         await reportInstallToBackend('Chrome / Android Home Screen', false);
@@ -155,15 +186,22 @@ export const PWAInstallButton: React.FC = () => {
     setShowGuideModal(true);
   };
 
+  // Hide the "Install Mobile App" button completely once the app is installed
+  if (isInstalled) {
+    return null;
+  }
+
   return (
     <>
       <button
         type="button"
         onClick={handleInstallClick}
-        className="px-3 py-2 rounded-lg text-xs font-semibold bg-amber-600 hover:bg-amber-500 text-white flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0 shadow-xs"
+        className={`${
+          fullWidth ? 'w-full justify-center py-2.5' : 'px-3 py-1.5'
+        } rounded-lg text-xs font-semibold bg-amber-600 hover:bg-amber-500 text-white flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0 shadow-xs`}
       >
         <Smartphone className="w-3.5 h-3.5" />
-        <span>{isInstalled ? 'App Installed' : 'Install Mobile App'}</span>
+        <span>Install Mobile App</span>
       </button>
 
       {showGuideModal && (
@@ -187,10 +225,9 @@ export const PWAInstallButton: React.FC = () => {
                   Android Phone (Chrome / Samsung Internet):
                 </p>
                 <p>
-                  1. Open this link in <strong>Chrome</strong> on your mobile phone.<br />
-                  2. Tap the <strong>3-dot menu (⋮)</strong> at the top right of Chrome.<br />
-                  3. Tap <strong>“Install app”</strong> or <strong>“Add to Home screen”</strong>.<br />
-                  4. Tap <strong>Install</strong> — the app icon will appear on your phone home screen!
+                  1. Tap the <strong>3-dot menu (⋮)</strong> at the top right of Chrome.<br />
+                  2. Tap <strong>“Install app”</strong> or <strong>“Add to Home screen”</strong>.<br />
+                  3. Tap <strong>Install</strong> — the app icon will appear on your phone home screen!
                 </p>
               </div>
 
@@ -199,10 +236,9 @@ export const PWAInstallButton: React.FC = () => {
                   iPhone / iPad (Safari):
                 </p>
                 <p>
-                  1. Open this link in <strong>Safari</strong> on your iPhone.<br />
-                  2. Tap the <strong>Share icon (square with arrow ↑)</strong> at the bottom.<br />
-                  3. Scroll down and tap <strong>“Add to Home Screen”</strong>.<br />
-                  4. Tap <strong>Add</strong> at the top right.
+                  1. Tap the <strong>Share icon (square with arrow ↑)</strong> at the bottom.<br />
+                  2. Scroll down and tap <strong>“Add to Home Screen”</strong>.<br />
+                  3. Tap <strong>Add</strong> at the top right.
                 </p>
               </div>
 
@@ -217,14 +253,15 @@ export const PWAInstallButton: React.FC = () => {
               <button
                 type="button"
                 onClick={async () => {
+                  markAppInstalled();
                   await reportInstallToBackend('Mobile Device Install Confirmed', false);
                   setShowGuideModal(false);
-                  pushNotification('App Ready!', 'Thank you for installing our mobile app.');
+                  pushNotification('App Installed!', 'Install button is now hidden.');
                 }}
                 className="flex-1 py-2.5 px-4 bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5"
               >
                 <CheckCircle2 className="w-4 h-4" />
-                Done / I Installed the App
+                I Installed It (Hide Button)
               </button>
               <button
                 type="button"

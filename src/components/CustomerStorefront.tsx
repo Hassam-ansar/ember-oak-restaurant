@@ -117,7 +117,25 @@ export const CustomerStorefront: React.FC = () => {
     }
   }, [user]);
 
+  const isCustomerLoggedIn = Boolean(
+    user &&
+      user.email.toLowerCase() !== 'customer@emberandoak.com' &&
+      !user.name.toLowerCase().includes('sophia chen')
+  );
+
+  const requireCustomerLoginFirst = () => {
+    window.dispatchEvent(
+      new CustomEvent('open-customer-login', {
+        detail: { message: 'Please Login or Create an Account first before ordering.' },
+      })
+    );
+  };
+
   const openProductModal = (product: IProduct) => {
+    if (!isCustomerLoggedIn) {
+      requireCustomerLoginFirst();
+      return;
+    }
     setActiveProduct(product);
     setCustomQty(1);
     setSelectedSize(product.sizes[0]);
@@ -203,6 +221,11 @@ export const CustomerStorefront: React.FC = () => {
 
   const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isCustomerLoggedIn) {
+      setIsCartOpen(false);
+      requireCustomerLoginFirst();
+      return;
+    }
     if (cart.length === 0) return;
     if (orderType === 'delivery' && cartTotals.subtotal < cartTotals.minOrder) {
       pushNotification(
@@ -346,8 +369,8 @@ export const CustomerStorefront: React.FC = () => {
   }, [orders, user, localOrderIds]);
 
   return (
-    <div className="min-h-screen bg-stone-50 text-stone-900">
-      {/* Slim Dismissible Promotional Banner (<= 40px height per E-Commerce rules) */}
+    <div className="min-h-screen bg-stone-50 text-stone-900 overflow-x-hidden w-full">
+      {/* Slim Dismissible Promotional Banner */}
       {!bannerDismissed && settings?.promotionalBannerText && (
         <div className="bg-stone-900 text-stone-100 h-9 px-4 flex items-center justify-between text-xs">
           <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
@@ -365,52 +388,49 @@ export const CustomerStorefront: React.FC = () => {
 
       {/* SECTION 1: Storefront Split Hero */}
       <section className="bg-stone-950 text-stone-100 border-b border-stone-800">
-        <div className="max-w-7xl mx-auto px-6 py-12 lg:py-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
-          <div className="lg:col-span-6 flex flex-col justify-between space-y-6">
-            <div className="space-y-4">
-              <p className="text-xs font-medium tracking-widest uppercase text-amber-400">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
+          <div className="lg:col-span-6 flex flex-col justify-between space-y-5">
+            <div className="space-y-3">
+              <p className="text-[11px] sm:text-xs font-medium tracking-widest uppercase text-amber-400">
                 Wood-Fired Kiln · Black Angus Grill · Fast Dispatch
               </p>
-              <h1
-                className="font-display font-bold tracking-tight text-white leading-[1.08]"
-                style={{ fontSize: 'clamp(2.25rem, 4vw, 3.5rem)', textWrap: 'balance' }}
-              >
+              <h1 className="font-display font-bold tracking-tight text-white text-2xl sm:text-4xl lg:text-5xl leading-tight">
                 Artisanal Sourdough Pizzas &amp; Smashed Craft Burgers
               </h1>
-              <p className="text-stone-300 text-base leading-relaxed max-w-xl">
+              <p className="text-stone-300 text-sm sm:text-base leading-relaxed max-w-xl">
                 48-hour fermented Italian 00 dough, Royal Crown Crust pizzas, double Black Angus smash burgers, and charcoal-grilled shawarmas delivered piping hot to your door.
               </p>
             </div>
 
             {/* Primary CTA & Live Order Tracker Lookup */}
-            <div className="space-y-4 pt-2">
-              <div className="flex flex-wrap items-center gap-3">
+            <div className="space-y-3 pt-1">
+              <div className="flex flex-wrap items-center gap-2.5">
                 <a
                   href="#menu-section"
-                  className="px-6 py-3 bg-amber-600 hover:bg-amber-500 text-white font-semibold text-sm rounded-lg transition-colors whitespace-nowrap shrink-0"
+                  className="px-5 py-2.5 bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs sm:text-sm rounded-lg transition-colors whitespace-nowrap shrink-0"
                 >
                   Explore Full Menu
                 </a>
                 <button
                   onClick={() => setShowOrderHistoryModal(true)}
-                  className="px-5 py-3 bg-stone-900 hover:bg-stone-800 text-stone-200 border border-stone-700 font-medium text-sm rounded-lg transition-colors whitespace-nowrap shrink-0 flex items-center gap-2"
+                  className="px-4 py-2.5 bg-stone-900 hover:bg-stone-800 text-stone-200 border border-stone-700 font-medium text-xs sm:text-sm rounded-lg transition-colors whitespace-nowrap shrink-0 flex items-center gap-2"
                 >
                   <RotateCcw className="w-4 h-4 text-amber-400" />
                   Order History &amp; Reorder ({customerOrders.length})
                 </button>
               </div>
 
-              <form onSubmit={handleTrackOrderSearch} className="flex items-center gap-2 max-w-md pt-2">
+              <form onSubmit={handleTrackOrderSearch} className="flex items-center gap-2 max-w-md pt-1">
                 <input
                   type="text"
                   value={trackOrderInput}
                   onChange={(e) => setTrackOrderInput(e.target.value)}
-                  placeholder="Track order (e.g. EO-1043 or EO-1044)..."
-                  className="flex-1 bg-stone-900 border border-stone-700 rounded-lg px-3.5 py-2 text-sm text-white placeholder:text-stone-500 focus:outline-none focus:border-amber-500"
+                  placeholder="Track order (e.g. EO-1043)..."
+                  className="flex-1 min-w-0 bg-stone-900 border border-stone-700 rounded-lg px-3 py-2 text-xs sm:text-sm text-white placeholder:text-stone-500 focus:outline-none focus:border-amber-500"
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-100 text-xs font-semibold rounded-lg border border-stone-700 transition-colors whitespace-nowrap shrink-0"
+                  className="px-3.5 py-2 bg-stone-800 hover:bg-stone-700 text-stone-100 text-xs font-semibold rounded-lg border border-stone-700 transition-colors whitespace-nowrap shrink-0"
                 >
                   Track Live
                 </button>
@@ -418,7 +438,7 @@ export const CustomerStorefront: React.FC = () => {
             </div>
 
             {/* Clean Restaurant Details in Mid Section (No Owner/Manager Details) */}
-            <div className="pt-4 border-t border-stone-800/80 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-stone-400">
+            <div className="pt-4 border-t border-stone-800/80 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-stone-400">
               <span>
                 Restaurant:{' '}
                 <strong className="text-stone-200">
@@ -442,19 +462,19 @@ export const CustomerStorefront: React.FC = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-6 relative rounded-xl overflow-hidden border border-stone-800 min-h-[300px]">
+          <div className="lg:col-span-6 relative rounded-xl overflow-hidden border border-stone-800 min-h-[260px] sm:min-h-[320px]">
             <SafeFoodImage
               src="/src/assets/images/hero_artisan_pizza_feast_1791612739930.jpg"
               alt="Wood-fired pepperoni pizza, double smash burger, and loaded cheese fries"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent flex items-end p-6">
-              <div className="flex items-center justify-between w-full text-white">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent flex items-end p-4 sm:p-6">
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between w-full text-white gap-3">
                 <div>
-                  <p className="text-xs uppercase tracking-wider text-amber-300 font-medium">
+                  <p className="text-[11px] uppercase tracking-wider text-amber-300 font-medium">
                     Featured Family Bundle
                   </p>
-                  <p className="text-lg font-display font-bold">
+                  <p className="text-sm sm:text-lg font-display font-bold leading-snug">
                     The Grand Ember Family Feast (Serves 4–6)
                   </p>
                 </div>
@@ -463,7 +483,7 @@ export const CustomerStorefront: React.FC = () => {
                     const deal = products.find((p) => p.id === 'prod-deal-family') || products[0];
                     if (deal) openProductModal(deal);
                   }}
-                  className="px-4 py-2 bg-white text-stone-950 hover:bg-amber-50 font-semibold text-xs rounded-lg transition-colors whitespace-nowrap shrink-0"
+                  className="self-start sm:self-auto px-4 py-2 bg-white text-stone-950 hover:bg-amber-50 font-semibold text-xs rounded-lg transition-colors whitespace-nowrap shrink-0"
                 >
                   Customize · $49.90
                 </button>
